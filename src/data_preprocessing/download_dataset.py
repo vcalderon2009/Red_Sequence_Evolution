@@ -23,7 +23,7 @@ from cosmo_utils.utils import file_utils as cfutils
 from cosmo_utils.utils import work_paths as cwpaths
 from cosmo_utils.utils import web_utils  as cweb
 
-from redseq_tools import RedSeq
+from src.redseq_tools import RedSeq
 
 # Extra-modules
 from argparse import ArgumentParser
