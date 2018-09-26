@@ -32,9 +32,6 @@ from operator import attrgetter
 import subprocess
 
 # NOAO Data Client
-from dl import authClient as ac
-from dl import queryClient as qc
-from getpass import getpass
 
 ### ----| Common Functions |--- ###
 
@@ -109,14 +106,14 @@ def get_parser():
     ## 1st Magnitude band
     parser.add_argument('-mband_1',
                         dest='mband_1',
-                        help='First absolute magnitude band to analyze.',
+                        help='First apparent magnitude band to analyze.',
                         type=str,
                         choices=['g','r','i','z','Y'],
                         default='g')
     ## 2nd Magnitude band
     parser.add_argument('-mband_2',
                         dest='mband_2',
-                        help='Second absolute magnitude band to analyze.',
+                        help='Second apparent magnitude band to analyze.',
                         type=str,
                         choices=['g','r','i','z','Y'],
                         default='z')
@@ -192,8 +189,8 @@ def param_vals_test(param_dict):
         msg = msg.format(Prog_msg, param_dict['url_catl'])
         raise ValueError(msg)
     ## Making sure that `mag_diff_tresh` larger than some value
-    if not (param_dict['mag_diff_tresh'] > 4.):
-        msg = '{0} `mag_diff_tresh` ({1}) must be larger than 4! '
+    if not (param_dict['mag_diff_tresh'] <= 4.):
+        msg = '{0} `mag_diff_tresh` ({1}) must be smaller than 4! '
         msg += 'Exiting!'
         msg = msg.format(Prog_msg, param_dict['mag_diff_tresh'])
         raise ValueError(msg)
@@ -204,8 +201,6 @@ def param_vals_test(param_dict):
         msg = msg.format(Prog_msg, param_dict['mag_min'],
             param_dict['param_max'])
         raise ValueError(msg)
-
-    return param_dict
 
 def add_to_dict(param_dict):
     """
@@ -237,8 +232,6 @@ def add_to_dict(param_dict):
     cweb.url_checker(redmap_url)
     ###
     ### To dictionary
-    param_dict['url_catl'         ] = url_catl
-    param_dict['download_catl_opt'] = download_catl_opt
     param_dict['rand_url'         ] = rand_url
     param_dict['redmap_url'       ] = redmap_url
 
@@ -274,7 +267,7 @@ def directory_skeleton(param_dict, proj_dict):
     ##
     ## Saving to dictionary `proj_dict`
     proj_dict['master_dir_path'] = master_dir_path
-    proj_dict['rand_dir_path'] = rand_dir_path
+    proj_dict['rand_dir_path'  ] = rand_dir_path
     proj_dict['redmap_dir_path'] = redmap_dir_path
 
     return proj_dict
@@ -294,117 +287,21 @@ def download_directory(param_dict, proj_dict):
         dictionary with info of the project that uses the
         `Data Science` Cookiecutter template.
     """
-    ###
     ## Creating command to execute download
-    for catl_kind in ['data', 'mocks']:
-        ## Downloading directories from the web
-        # Data
-        if catl_kind == 'data':
-            ## Prefix for the main directory
-            catl_kind_prefix = os.path.join(param_dict['url_catl'],
-                                            catl_kind,
-                                            param_dict['catl_type'],
-                                            'Mr'+param_dict['sample_s'])
-            # Number of directories to cut/skip
-            # See `wget` documentation for more details.
-            cut_dirs = 8
-        # Mocks
-        if catl_kind == 'mocks':
-            catl_kind_prefix = os.path.join(
-                param_dict['url_catl'],
-                catl_kind,
-                'halos_{0}'.format(param_dict['halotype']),
-                'dv_{0}'.format(param_dict['dv']),
-                'hod_model_{0}'.format(param_dict['hod_n']),
-                'clf_seed_{0}'.format(param_dict['clf_seed']),
-                'clf_method_{0}'.format(param_dict['clf_method']),
-                param_dict['catl_type'],
-                param_dict['sample_Mr'])
-            # Number of directories to cut/skip
-            # See `wget` documentation for more details.
-            cut_dirs = 13
-        ##
-        ## Direcotories for `members` and `groups`
-        catl_kind_memb  = os.path.join(  catl_kind_prefix,
-                                        'member_galaxy_catalogues/')
-        catl_kind_group = os.path.join(  catl_kind_prefix,
-                                        'group_galaxy_catalogues/')
-        ## Checking if URL exists
-        cweb.url_checker(catl_kind_memb)
-        cweb.url_checker(catl_kind_group)
-        ## String to be executed
-        if param_dict['verbose']:
-            cmd_dw = 'wget -m -nH -x -np -r -c --accept=*.hdf5 --cut-dirs={0} '
-            cmd_dw += '--reject="index.html*" {1}'
-        else:
-            cmd_dw = 'wget -m -nH -x -np -r -c -nv --accept=*.hdf5 '
-            cmd_dw += '--cut-dirs={0} --reject="index.html*" {1}'
-        cmd_dw_m = cmd_dw.format(cut_dirs, catl_kind_memb)
-        cmd_dw_g = cmd_dw.format(cut_dirs, catl_kind_group)
-        ## Executing command
-        print('{0} Downloading Dataset......'.format(param_dict['Prog_msg']))
-        # Members
-        print(cmd_dw_m)
-        subprocess.call(cmd_dw_m, shell=True, cwd=proj_dict[catl_kind+'_out_m'])
-        # Groups
-        print(cmd_dw_g)
-        subprocess.call(cmd_dw_g, shell=True, cwd=proj_dict[catl_kind+'_out_g'])
-        ## Deleting `robots.txt`
-        # Members
-        try:
-            os.remove('{0}/robots.txt'.format(proj_dict[catl_kind+'_out_m']))
-        except:
-            pass
-        # Groups
-        try:
-            os.remove('{0}/robots.txt'.format(proj_dict[catl_kind+'_out_g']))
-        except:
-            pass
-        ##
-        ##
-        print('\n\n{0} Catalogues were saved at: {1} and {2}\n\n'.format(
-            param_dict['Prog_msg'], proj_dict[catl_kind+'_out_m'],
-            proj_dict[catl_kind+'_out_g']))
-        ##
-        ## --- Perfect Catalogue -- Mocks
-        if (catl_kind == 'mocks') and (param_dict['perf_opt']):
-            ## Downloading directories from the web
-            catl_kind_prefix = os.path.join(param_dict['url_catl'],
-                                        catl_kind,
-                                        param_dict['catl_type'],
-                                        'Mr'+param_dict['sample_s'])
-            ##
-            ## Direcotories for `members` and `groups`
-            catl_kind_memb  = os.path.join(  catl_kind_prefix,
-                                            'perfect_member_galaxy_catalogues/')
-            catl_kind_group = os.path.join(  catl_kind_prefix,
-                                            'perfect_group_galaxy_catalogues/')
-            ## Checking URLs
-            cweb.url_checker(catl_kind_memb)
-            cweb.url_checker(catl_kind_group)
-            ## String to be executed
-            cmd_dw = 'wget -r -nH -x -np -A *Mr{0}*.hdf5 --cut-dirs={1} '
-            cmd_dw += '-R "index.html*" {2}'
-            # Members and Groups commands
-            cmd_dw_m = cmd_dw.format(param_dict['sample_s'],
-                cut_dirs, catl_kind_memb)
-            cmd_dw_g = cmd_dw.format(param_dict['sample_s'],
-                cut_dirs, catl_kind_group)
-            ## Executing command
-            print('{0} Downloading Dataset......'.format(param_dict['Prog_msg']))
-            print(cmd_dw_m)
-            subprocess.call(cmd_dw_m, shell=True, 
-                cwd=proj_dict['mocks_out_perf_memb'])
-            print(cmd_dw_g)
-            subprocess.call(cmd_dw_g, shell=True, 
-                cwd=proj_dict['mocks_out_perf_groups'])
-
-            ## Deleting `robots.txt`
-            os.remove('{0}/robots.txt'.format(proj_dict['mocks_out_perf_memb']))
-            ##
-            ##
-            print('\n\n{0} Catalogues were saved at: {1}\n\n'.format(
-                param_dict['Prog_msg'], proj_dict['mocks_out_perf_memb']))
+    kind_arr = ['random'       , 'redmapper'      ]
+    keys_arr = ['rand_dir_path', 'redmap_dir_path']
+    url_arr  = ['rand_url'     , 'redmap_url'     ]
+    # Looping over each instance
+    for kk, (kind_kk, key_kk, url_kk) in enumerate(zip(kind_arr, keys_arr, url_arr)):
+        ## Paths to local files
+        kk_local = param_dict['rs_args'].input_catl_file(catl_kind=kind_kk,
+                        check_exist=False)
+        kk_remote = param_dict[url_kk]
+        ## Downloading file
+        cfutils.File_Download_needed(kk_local, kk_remote)
+    # Message
+    if param_dict['verbose']:
+        print('{0} Download complete!'.format(param_dict['Prog_msg']))
 
 ### ----| Main Function |--- ###
 
@@ -426,9 +323,9 @@ def main(args):
     ## Creating folder directory
     proj_dict = param_dict['rs_args'].proj_dict
     proj_dict = directory_skeleton(param_dict, proj_dict)
-
-
-
+    ## Downloading data
+    download_directory(param_dict, proj_dict)
+    
     ##
     ## Checking if there is a local version of the catalogues
     if param_dict['download_catl_opt']:
