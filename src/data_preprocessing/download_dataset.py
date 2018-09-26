@@ -221,25 +221,26 @@ def add_to_dict(param_dict):
     param_dict: python dictionary
         dictionary with old and new values added
     """
-    ###
-    ### URL to download catalogues
-    url_catl = 'http://lss.phy.vanderbilt.edu/groups/data_vc/DR7/sdss_catalogues/'
-    cweb.url_checker(url_catl)
     ##
-    ## Check to see if there is a `local` copy of the catalogues
-    try:
-        sdss_catl_path = os.environ['sdss_catl_path']
-        # Checking if directory exists
-        if os.path.exists(sdss_catl_path):
-            download_catl_opt = False
-        else:
-            download_catl_opt = True
-    except KeyError:
-        download_catl_opt = True
+    ## Creating SQL Query for cleaning the data
+    SQL_QUERY="""
+
+    """
+    ## Paths to online files
+    # Random catalogue
+    rand_url = os.path.join('http://risa.stanford.edu/redmapper/v6.3',
+                            'redmapper_sva1_public_v6.3_randoms.fits.gz')
+    cweb.url_checker(rand_url)
+    # RedMapper catalouge
+    redmap_url = os.path.join('http://risa.stanford.edu/redmapper/v6.3',
+                            'redmapper_sva1_public_v6.3_catalog.fits.gz')
+    cweb.url_checker(redmap_url)
     ###
     ### To dictionary
     param_dict['url_catl'         ] = url_catl
     param_dict['download_catl_opt'] = download_catl_opt
+    param_dict['rand_url'         ] = rand_url
+    param_dict['redmap_url'       ] = redmap_url
 
     return param_dict
 
@@ -249,62 +250,32 @@ def directory_skeleton(param_dict, proj_dict):
 
     Parameters
     ----------
-    param_dict: python dictionary
-        dictionary with `project` variables
+    param_dict : `dict`
+        Dictionary with `project` variables
 
-    proj_dict: python dictionary
-        dictionary with info of the project that uses the
+    proj_dict : `dict`
+        Dictionary with info of the project that uses the
         `Data Science` Cookiecutter template.
 
     Returns
     ---------
-    proj_dict: python dictionary
+    proj_dict : `dict`
         Dictionary with current and new paths to project directories
     """
-    ## Directory for Catalogues
-    for catl_kind in ['data', 'mocks']:
-        # Data
-        if catl_kind == 'data':
-            catl_dir = os.path.join(    proj_dict['ext_dir'],
-                                        'SDSS',
-                                        catl_kind,
-                                        param_dict['catl_type'],
-                                        param_dict['sample_Mr'])
-        # Mocks
-        if catl_kind == 'mocks':
-            catl_dir = os.path.join(    proj_dict['ext_dir'],
-                                        'SDSS',
-                                        catl_kind,
-                                        'halos_{0}'.format(param_dict['halotype']),
-                                        'dv_{0}'.format(param_dict['dv']),
-                                        'hod_model_{0}'.format(param_dict['hod_n']),
-                                        'clf_seed_{0}'.format(param_dict['clf_seed']),
-                                        'clf_method_{0}'.format(param_dict['clf_method']),
-                                        param_dict['catl_type'],
-                                        param_dict['sample_Mr'])
-        ##
-        ## Extra folders
-        # Member galaxy directory
-        member_dir = os.path.join(catl_dir, 'member_galaxy_catalogues')
-        groups_dir = os.path.join(catl_dir, 'group_galaxy_catalogues')
-        cfutils.Path_Folder(member_dir)
-        cfutils.Path_Folder(groups_dir)
-        # Members and Groups directories
-        proj_dict['{0}_out_m'.format(catl_kind)] = member_dir
-        proj_dict['{0}_out_g'.format(catl_kind)] = groups_dir
-        ##
-        ## Perfect galaxy directory
-        if (catl_kind == 'mocks') and (param_dict['perf_opt']):
-            # Members
-            perf_member_dir = os.path.join( catl_dir,
-                                            'perfect_member_galaxy_catalogues')
-            cfutils.Path_Folder(perf_member_dir)
-            proj_dict['{0}_out_perf_memb'.format(catl_kind)] = perf_member_dir
-            ## Groups
-            perf_groups_dir = os.path.join( catl_dir,
-                                            'perfect_groups_galaxy_catalogues')
-            cfutils.Path_Folder(perf_groups_dir)
-            proj_dict['{0}_out_perf_groups'.format(catl_kind)] = perf_groups_dir
+    ## Master catalogue
+    master_dir_path = param_dict['rs_args'].input_catl_file_path(
+        catl_kind='master', check_exist=False, create_dir=True)
+    ## Random catalogue
+    rand_dir_path = param_dict['rs_args'].input_catl_file_path(
+        catl_kind='random', check_exist=False, create_dir=True)
+    ## RedMapper catalogue
+    redmap_dir_path = param_dict['rs_args'].input_catl_file_path(
+        catl_kind='redmapper', check_exist=False, create_dir=True)
+    ##
+    ## Saving to dictionary `proj_dict`
+    proj_dict['master_dir_path'] = master_dir_path
+    proj_dict['rand_dir_path'] = rand_dir_path
+    proj_dict['redmap_dir_path'] = redmap_dir_path
 
     return proj_dict
 
@@ -452,6 +423,12 @@ def main(args):
     param_dict['rs_args'] = RedSeq(**param_dict)
     ## Program message
     Prog_msg = param_dict['Prog_msg']
+    ## Creating folder directory
+    proj_dict = param_dict['rs_args'].proj_dict
+    proj_dict = directory_skeleton(param_dict, proj_dict)
+
+
+
     ##
     ## Checking if there is a local version of the catalogues
     if param_dict['download_catl_opt']:
