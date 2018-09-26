@@ -22,4 +22,3 @@ dependencies:
         - configparser
         - sphinx-astropy
         - sphinx_rtd_theme
-        - datalab-client

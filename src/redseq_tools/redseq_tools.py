@@ -60,7 +60,7 @@ class RedSeq(object):
         # Extra variables
         self.proj_dict      = cwpaths.cookiecutter_paths(__file__)
 
-    def input_catl_prefix_str(self, catl_kind='master'):
+    def input_catl_prefix_str(self, catl_kind='master', ext='csv'):
         """
         Prefix string for the main catalogues
 
@@ -92,7 +92,7 @@ class RedSeq(object):
                         self.mag_min,
                         self.mag_max]
         catl_pre_str = 'catl_{0}_{1}_{2}_{3}_{4}_{5}'
-        catl_pre_str = catl_pre_str.format(catl_pre_arr)
+        catl_pre_str = catl_pre_str.format(*catl_pre_arr)
 
         return catl_pre_str
 
@@ -142,7 +142,7 @@ class RedSeq(object):
             msg = msg.format(catl_kind)
             raise ValueError(msg)
         # Path to directory
-        input_catl_dir = os.path.join(   self.proj_dict['ext_dir']
+        input_catl_dir = os.path.join(   self.proj_dict['ext_dir'],
                                     catl_kind)
         # Creating directory
         if create_dir:
@@ -156,7 +156,8 @@ class RedSeq(object):
 
         return input_catl_dir
 
-    def input_catl_file(self, catl_kind='master', check_exist=True):
+    def input_catl_file(self, catl_kind='master', check_exist=True,
+        ext='csv'):
         """
         Path to the file being analyzed.
 
@@ -173,6 +174,9 @@ class RedSeq(object):
             If `True`, it checks for whether or not the file exists.
             This variable is set to `False` by default.
 
+        ext : {'csv'} `str`
+            Extension used for the catalogue file.
+
         Returns
         ------------
         input_file_path : `str`
@@ -185,21 +189,23 @@ class RedSeq(object):
                 type(check_exist))
             raise TypeError(msg)
         #
-        # `create_dir`
-        if not (isinstance(create_dir, bool)):
-            msg = '`create_dir` ({0}) must be of `boolean` type!'.format(
-                type(create_dir))
-            raise TypeError(msg)
-        #
         # `catl_kind`
         if not (catl_kind in ['master', 'redmapper', 'random']):
             msg = '`catl_kind` ({1}) is not a valid input variable!'
             msg = msg.format(catl_kind)
             raise ValueError(msg)
         ##
+        ## Modifying extension
+        if (catl_kind == 'master'):
+            ext = 'csv'
+        else:
+            ext = 'fits'
+        ##
         ## Path to the input file
-        filepath = os.path.join(self.input_catl_file_path(catl_kind=catl_kind,
-                            self.input_catl_prefix_str(catl_kind=catl_kind)))
+        filepath = os.path.join(self.input_catl_file_path(catl_kind=catl_kind),
+                            '{0}.{1}'.format(
+                                self.input_catl_prefix_str(catl_kind=catl_kind),
+                                ext))
         if check_exist:
             if not (os.path.exists(input_catl_dir)):
                 msg = '`input_catl_dir` ({0}) was not found!'.format(
