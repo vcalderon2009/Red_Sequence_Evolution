@@ -15,6 +15,4 @@ Init file for main Source file
 
 # Importing modules
 
-from . import data_analysis
-from . import data_preprocessing
-from . import redseq_tools
+from .redseq_tools import RedSeq
