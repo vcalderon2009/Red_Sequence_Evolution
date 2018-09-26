@@ -2,9 +2,9 @@
 	environment update_environment remove_environment src_env src_update
 	src_remove
 
-#################################################################################
-# GLOBALS                                                                       #
-#################################################################################
+###############################################################################
+# GLOBALS                                                                     #
+###############################################################################
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
@@ -13,6 +13,31 @@ PROJECT_NAME = Red_Sequence_Evolution
 PYTHON_INTERPRETER = python3
 ENVIRONMENT_FILE = environment.yml
 ENVIRONMENT_NAME = red_sequence_evolution
+
+DATA_DIR           = $(PROJECT_DIR)/data
+SRC_DIR            = $(PROJECT_DIR)/src
+SRC_PREPROC_DIR    = $(SRC_DIR)/data_preprocessing
+SRC_ANALYSIS_DIR   = $(SRC_DIR)/data_analysis
+CATL_DIR           = $(DATA_DIR)/external
+
+# DOWNLOADING DATA - VARIABLES
+MBAND_1 = "g"
+MBAND_2 = "z"
+MAGDIFF_THR = 4.
+MAG_MIN = 24
+MAG_MAX = 17
+VERBOSE = "True"
+
+# ANALYSIS - VARIABLES
+RADIUS_SIZE = 5
+COSMO = "WMAP7"
+Z_BINSIZE = 0.0125
+Z_MIN = 0.4
+Z_MAX = 1.
+INPUT_LOC = "RedMapper"
+
+# PLOTTING - VARIABLES
+HIST_SIZE = 70
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
@@ -125,6 +150,11 @@ cosmo_utils_remove:
 # PROJECT RULES                                                                 #
 #################################################################################
 
+## Downloading the data
+download_data:
+	@python $(SRC_PREPROC_DIR)/download_dataset.py -mband_1 $(MBAND_1) \
+	-mband_2 $(MBAND_2) -mag_diff_tresh $(MAGDIFF_THR) -mag_min $(MAG_MIN) \
+	-mag_max $(MAG_MAX) -v $(VERBOSE)
 
 
 #################################################################################
