@@ -27,7 +27,7 @@ Project based on the `modified <https://github.com/vcalderon2009/cookiecutter-da
    :alt: Open Issues
 
 .. |RTD| image:: https://readthedocs.org/projects/red-sequence-evolution/badge/?version=latest
-   :target: https://readthedocs.org/projects/red-sequence-evolution/badge/?version=latest
+   :target: http://red-sequence-evolution.rtfd.io/en/latest/
    :alt: Documentation Status
 
 
