@@ -7,12 +7,12 @@ Red_Sequence_Evolution - References
 
 This is a lit of references used in this project.
 
-* `Red-Sequence Evolution of Galaxy Clusters <https://cdn.rawgit.com/vcalderon2009/Red_Sequence_Evolution/1c80adb3/references/Khullar_redseq_spt_des.pdf>`_
-* `The evolution of the red sequence slope in massive galaxy clusters by Stott et al. (2009) <https://academic.oup.com/mnras/article/394/4/2098/1205199>`_
-* `Evolution of red-sequence cluster galaxies from redshift 0.8 to 0.4: ages, metallicities, and morphologies <http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:0902.3392>`_ by Sánchez-Blázquez, P.
-* `The Red Sequence Method for Galaxy Cluster Detection <https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/>`_ - Astrobites article
-* `The Red-Sequence Cluster Survey <http://www.astro.puc.cl/~barrien/messenger/messenger-no112-40-43.pdf>`_ by Felipe Barrientos
-* `Dark Energy Survey DR1 Data Release <https://arxiv.org/pdf/1801.03181.pdf>`_ by Abbott et al. 2017 (and the DES collaboration)
+* "`Red-Sequence Evolution of Galaxy Clusters <https://cdn.rawgit.com/vcalderon2009/Red_Sequence_Evolution/1c80adb3/references/Khullar_redseq_spt_des.pdf>`_" by Gourav Khullar
+* "`The evolution of the red sequence slope in massive galaxy clusters <https://academic.oup.com/mnras/article/394/4/2098/1205199>`_" by  by Stott et al.
+* "`Evolution of red-sequence cluster galaxies from redshift 0.8 to 0.4: ages, metallicities, and morphologies <http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:0902.3392>`_" by Sánchez-Blázquez, P.
+* "`The Red Sequence Method for Galaxy Cluster Detection <https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/>`_" - Astrobites article
+* "`The Red-Sequence Cluster Survey <http://www.astro.puc.cl/~barrien/messenger/messenger-no112-40-43.pdf>`_" by Felipe Barrientos
+* "`Dark Energy Survey DR1 Data Release <https://arxiv.org/pdf/1801.03181.pdf>`_" by Abbott et al. 2017 (and the DES collaboration)
 
 
 
