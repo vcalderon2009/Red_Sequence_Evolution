@@ -20,7 +20,7 @@ This is a lit of references used in this project.
 
 
 For further information on how to use the scripts of this project,
-got the documentation shown above.
+please see the documentation above.
 
 .. ----------------------------------------------------------------------------
 
