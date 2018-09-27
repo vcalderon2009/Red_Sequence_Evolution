@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" lang="en-US">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" lang="en-US">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" lang="en-US">
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)  ]><!-->
+<html lang="en-US">
+<!--<![endif]-->
+<head>
+	<meta charset="UTF-8" />
+	<title>The Red Sequence Method for Galaxy Cluster Detection | astrobites</title>
+			
+	
+	<link rel="pingback" href="https://astrobites.org/xmlrpc.php" />
+
+		<!--[if lt IE 9]>
+	<script src="https://astrobites.org/wp-content/themes/Divi/js/html5.js" type="text/javascript"></script>
+	<![endif]-->
+
+	<script type="text/javascript">
+		document.documentElement.className = 'js';
+	</script>
+
+	<link rel='dns-prefetch' href='//astrobites.org' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//secure.gravatar.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="astrobites &raquo; Feed" href="https://astrobites.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="astrobites &raquo; Comments Feed" href="https://astrobites.org/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="astrobites &raquo; The Red Sequence Method for Galaxy Cluster Detection Comments Feed" href="https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/feed/" />
+<!-- This site is powered by Shareaholic - https://shareaholic.com -->
+<script type='text/javascript' data-cfasync='false'>
+  //<![CDATA[
+    _SHR_SETTINGS = {"endpoints":{"local_recs_url":"https:\/\/astrobites.org\/wp-admin\/admin-ajax.php?action=shareaholic_permalink_related"},"url_components":{"year":"2012","monthnum":"03","day":"27","post_id":"19307","postname":"the-red-sequence-method-for-galaxy-cluster-detection","author":"rfoltz"}};
+  //]]>
+</script>
+<script type='text/javascript' data-cfasync='false'
+        src='//apps.shareaholic.com/assets/pub/shareaholic.js'
+        data-shr-siteid='b4197b18fdbc3a678fc599f03691bcbc' async='async' >
+</script>
+
+<!-- Shareaholic Content Tags -->
+<meta name='shareaholic:site_name' content='astrobites' />
+<meta name='shareaholic:language' content='en-US' />
+<meta name='shareaholic:url' content='https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/' />
+<meta name='shareaholic:keywords' content='color-magnitude relation, galaxy clusters, red sequence, daily paper summaries, post' />
+<meta name='shareaholic:article_published_time' content='2012-03-27T16:41:35-04:00' />
+<meta name='shareaholic:article_modified_time' content='2016-11-23T08:17:00-04:00' />
+<meta name='shareaholic:shareable_page' content='true' />
+<meta name='shareaholic:article_author_name' content='Ryan Foltz' />
+<meta name='shareaholic:site_id' content='b4197b18fdbc3a678fc599f03691bcbc' />
+<meta name='shareaholic:wp_version' content='8.5.0' />
+<meta name='shareaholic:image' content='https://astrobites.org/wp-content/uploads/2012/03/abell_1689-1024x1024.jpg' />
+<!-- Shareaholic Content Tags End -->
+
+<!-- Shareaholic Open Graph Tags -->
+<meta property='og:image' content='https://astrobites.org/wp-content/uploads/2012/03/abell_1689-1024x1024.jpg' />
+<!-- Shareaholic Open Graph Tags End -->
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/astrobites.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.2"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b!==c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<meta content="Divi child theme v." name="generator"/><style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='yarppWidgetCss-css'  href='https://astrobites.org/wp-content/plugins/yet-another-related-posts-plugin/style/widget.css?ver=4.8.2' type='text/css' media='all' />
+<link rel='stylesheet' id='simple_tooltips_style-css'  href='https://astrobites.org/wp-content/plugins/simple-tooltips/zebra_tooltips.css?ver=4.8.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='https://astrobites.org/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.9' type='text/css' media='all' />
+<link rel='stylesheet' id='css-wpautbox-tab-css'  href='https://astrobites.org/wp-content/plugins/wp-author-box-lite/lib/css/jquery-a-tabs.css' type='text/css' media='all' />
+<link rel='stylesheet' id='css-wpautbox-css'  href='https://astrobites.org/wp-content/plugins/wp-author-box-lite/lib/css/wpautbox.css' type='text/css' media='all' />
+<link rel='stylesheet' id='wpautbox-elusive-icon-css'  href='https://astrobites.org/wp-content/plugins/wp-author-box-lite/includes/ReduxFramework/ReduxCore/assets/css/vendor/elusive-icons/elusive-icons.css?ver=4.8.2' type='text/css' media='all' />
+<link rel='stylesheet' id='parent-styles-css'  href='https://astrobites.org/wp-content/themes/Divi/style.css?ver=4.8.2' type='text/css' media='all' />
+<link rel='stylesheet' id='divi-fonts-css'  href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,700,800&#038;subset=latin,latin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='divi-style-css'  href='https://astrobites.org/wp-content/themes/Divi-child/style.css?ver=2.2' type='text/css' media='all' />
+<!-- Inline jetpack_facebook_likebox -->
+<style id='jetpack_facebook_likebox-inline-css' type='text/css'>
+.widget_facebook_likebox {
+	overflow: hidden;
+}
+
+</style>
+<link rel='stylesheet' id='yarpp-thumbnails-yarpp-thumbnail-css'  href='https://astrobites.org/wp-content/plugins/yet-another-related-posts-plugin/includes/styles_thumbnails.css.php?width=176&#038;height=143&#038;ver=4.4' type='text/css' media='all' />
+<link rel='stylesheet' id='et-shortcodes-css-css'  href='https://astrobites.org/wp-content/themes/Divi/epanel/shortcodes/css/shortcodes.css?ver=3.0' type='text/css' media='all' />
+<link rel='stylesheet' id='et-shortcodes-responsive-css-css'  href='https://astrobites.org/wp-content/themes/Divi/epanel/shortcodes/css/shortcodes_responsive.css?ver=3.0' type='text/css' media='all' />
+<link rel='stylesheet' id='sccss_style-css'  href='https://astrobites.org/?sccss=1&#038;ver=4.8.2' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css'  href='https://astrobites.org/wp-content/plugins/jetpack/css/jetpack.css?ver=5.4' type='text/css' media='all' />
+<script type='text/javascript' src='https://astrobites.org/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/plugins/wp-d3/js/d3.v35.min.js?ver=1.0.0'></script>
+<link rel='https://api.w.org/' href='https://astrobites.org/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://astrobites.org/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://astrobites.org/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Searching for molecular gas in dwarf galaxies' href='https://astrobites.org/2012/03/24/searching-for-molecular-gas-in-dwarf-galaxies/' />
+<link rel='next' title='Making really BIG stars: Embryos of Supermassive Black holes?' href='https://astrobites.org/2012/03/27/making-really-big-stars-embryos-of-supermassive-black-holes/' />
+<meta name="generator" content="WordPress 4.8.2" />
+<link rel="canonical" href="https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/" />
+<link rel='shortlink' href='https://wp.me/p2oRte-51p' />
+<link rel="alternate" type="application/json+oembed" href="https://astrobites.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fastrobites.org%2F2012%2F03%2F27%2Fthe-red-sequence-method-for-galaxy-cluster-detection%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://astrobites.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fastrobites.org%2F2012%2F03%2F27%2Fthe-red-sequence-method-for-galaxy-cluster-detection%2F&#038;format=xml" />
+<style type="text/css"></style>
+<link rel='dns-prefetch' href='//v0.wordpress.com'/>
+<link rel='dns-prefetch' href='//jetpack.wordpress.com'/>
+<link rel='dns-prefetch' href='//s0.wp.com'/>
+<link rel='dns-prefetch' href='//s1.wp.com'/>
+<link rel='dns-prefetch' href='//s2.wp.com'/>
+<link rel='dns-prefetch' href='//public-api.wordpress.com'/>
+<link rel='dns-prefetch' href='//0.gravatar.com'/>
+<link rel='dns-prefetch' href='//1.gravatar.com'/>
+<link rel='dns-prefetch' href='//2.gravatar.com'/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />	<style>
+		a { color: #2EA3F2; }
+
+		body { color: #666666; }
+
+		.et_pb_counter_amount, .et_pb_featured_table .et_pb_pricing_heading, .et_quote_content, .et_link_content, .et_audio_content { background-color: #2EA3F2; }
+
+		#main-header, #main-header .nav li ul, .et-search-form, #main-header .et_mobile_menu { background-color: #ffffff; }
+
+		#top-header, #et-secondary-nav li ul { background-color: #222222; }
+
+		.woocommerce a.button.alt, .woocommerce-page a.button.alt, .woocommerce button.button.alt, .woocommerce-page button.button.alt, .woocommerce input.button.alt, .woocommerce-page input.button.alt, .woocommerce #respond input#submit.alt, .woocommerce-page #respond input#submit.alt, .woocommerce #content input.button.alt, .woocommerce-page #content input.button.alt, .woocommerce a.button, .woocommerce-page a.button, .woocommerce button.button, .woocommerce-page button.button, .woocommerce input.button, .woocommerce-page input.button, .woocommerce #respond input#submit, .woocommerce-page #respond input#submit, .woocommerce #content input.button, .woocommerce-page #content input.button, .woocommerce-message, .woocommerce-error, .woocommerce-info { background: #2EA3F2 !important; }
+
+		#et_search_icon:hover, .mobile_menu_bar:before, .footer-widget h4, .et-social-icon a:hover, .comment-reply-link, .form-submit input, .et_pb_sum, .et_pb_pricing li a, .et_pb_pricing_table_button, .et_overlay:before, .entry-summary p.price ins, .woocommerce div.product span.price, .woocommerce-page div.product span.price, .woocommerce #content div.product span.price, .woocommerce-page #content div.product span.price, .woocommerce div.product p.price, .woocommerce-page div.product p.price, .woocommerce #content div.product p.price, .woocommerce-page #content div.product p.price, .et_pb_member_social_links a:hover { color: #2EA3F2 !important; }
+
+		.woocommerce .star-rating span:before, .woocommerce-page .star-rating span:before, .et_pb_widget li a:hover, .et_pb_bg_layout_light .et_pb_promo_button, .et_pb_bg_layout_light .et_pb_more_button, .et_pb_filterable_portfolio .et_pb_portfolio_filters li a.active, .et_pb_filterable_portfolio .et_pb_portofolio_pagination ul li a.active, .et_pb_gallery .et_pb_gallery_pagination ul li a.active, .wp-pagenavi span.current, .wp-pagenavi a:hover, .et_pb_contact_submit, .et_pb_bg_layout_light .et_pb_newsletter_button, .nav-single a, .posted_in a { color: #2EA3F2 !important; }
+
+		.et-search-form, .nav li ul, .et_mobile_menu, .footer-widget li:before, .et_pb_pricing li:before, blockquote { border-color: #2EA3F2; }
+
+		#main-footer { background-color: #222222; }
+
+		#top-menu a { color: #666666; }
+
+		#top-menu li.current-menu-ancestor > a, #top-menu li.current-menu-item > a, .bottom-nav li.current-menu-item > a { color: #2EA3F2; }
+
+		</style>
+<link rel="shortcut icon" href="https://astrobites.org/wp-content/uploads/2015/02/favicon.ico" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="The Red Sequence Method for Galaxy Cluster Detection" />
+<meta property="og:url" content="https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/" />
+<meta property="og:description" content="How do we locate galaxy clusters in the sky? We&#8217;ll examine the red sequence method in particular." />
+<meta property="article:published_time" content="2012-03-27T20:41:35+00:00" />
+<meta property="article:modified_time" content="2016-11-23T13:17:00+00:00" />
+<meta property="og:site_name" content="astrobites" />
+<meta property="og:image" content="https://astrobites.org/wp-content/uploads/2012/03/abell_1689.jpg" />
+<meta property="og:image:width" content="1488" />
+<meta property="og:image:height" content="1488" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:image" content="https://astrobites.org/wp-content/uploads/2012/03/abell_1689.jpg?w=640" />
+<meta name="twitter:card" content="summary_large_image" />
+<style type="text/css" id="et-custom-css">
+.post {
+font-size: 18px; /* post font size */
+line-height: 120%; /* control top and bottom spacing between lines */
+}
+#top-menu li {
+font-size: 18px;
+}
+
+.wp-caption p.wp-caption-text {
+   text-align: left;
+   font-size: 14px;
+   padding-top: 10px;
+   }
+
+
+.et_pb_image_container {
+    margin: -15px -15px 10px;
+}
+
+.home .et_pb_column_1_4:first-child + p , .home .et_pb_column_1_4:nth-child(3) + p {
+display: none !important ;
+}
+
+.home .et_pb_column_1_4 {
+width: 210px !important;
+}
+
+.home .et_pb_column_1_4:nth-child(5) + p {
+display: none !important;
+}
+</style>			<style type="text/css" id="wp-custom-css">
+				/*
+Welcome to Custom CSS!
+
+CSS (Cascading Style Sheets) is a kind of code that tells the browser how
+to render a web page. You may delete these comments and get started with
+your customizations.
+
+By default, your stylesheet will be loaded after the theme stylesheets,
+which means that your rules can take precedence and override the theme CSS
+rules. Just write here what you want to change, you don't need to copy all
+your theme's stylesheet content.
+*/
+#top-menu li a {
+	color: #666 !important;
+}
+
+/*
+	CSS Migrated from Jetpack:
+*/
+
+/*
+Welcome to Custom CSS!
+
+CSS (Cascading Style Sheets) is a kind of code that tells the browser how
+to render a web page. You may delete these comments and get started with
+your customizations.
+
+By default, your stylesheet will be loaded after the theme stylesheets,
+which means that your rules can take precedence and override the theme CSS
+rules. Just write here what you want to change, you don't need to copy all
+your theme's stylesheet content.
+*/
+#top-menu li a {
+	color: #666 !important;
+}
+
+/*
+	CSS Migrated from Jetpack:
+*/
+
+/*
+Welcome to Custom CSS!
+
+CSS (Cascading Style Sheets) is a kind of code that tells the browser how
+to render a web page. You may delete these comments and get started with
+your customizations.
+
+By default, your stylesheet will be loaded after the theme stylesheets,
+which means that your rules can take precedence and override the theme CSS
+rules. Just write here what you want to change, you don't need to copy all
+your theme's stylesheet content.
+*/
+#top-menu li a {
+	color: #666 !important;
+}			</style>
+		</head>
+<body class="post-template-default single single-post postid-19307 single-format-standard et_fixed_nav et_secondary_nav_enabled osx et_right_sidebar chrome">
+	<div id="page-container">
+
+			<div id="top-header" class="et_nav_text_color_light">
+			<div class="container clearfix">
+
+			
+				<div id="et-secondary-menu">
+				<ul class="et-social-icons">
+
+	<li class="et-social-icon et-social-facebook">
+		<a href="https://www.facebook.com/astrobites" class="icon">
+			<span>Facebook</span>
+		</a>
+	</li>
+	<li class="et-social-icon et-social-twitter">
+		<a href="https://twitter.com/astrobites" class="icon">
+			<span>Twitter</span>
+		</a>
+	</li>
+	<li class="et-social-icon et-social-google-plus">
+		<a href="https://plus.google.com/102511635695838558639/posts" class="icon">
+			<span>Google</span>
+		</a>
+	</li>
+	<li class="et-social-icon et-social-rss">
+		<a href="https://astrobites.org/feed/" class="icon">
+			<span>RSS</span>
+		</a>
+	</li>
+
+</ul><ul id="et-secondary-nav" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-53642"><a href="https://astrobites.org/apply-to-write-for-astrobites/submit-a-guest-post/">Submit a guest post</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-53643"><a href="https://astrobites.org/about/undergraduate-research-abstract-submission/">Undergrads: submit your research!</a></li>
+</ul>				</div> <!-- #et-secondary-menu -->
+
+			</div> <!-- .container -->
+		</div> <!-- #top-header -->
+	
+		<header id="main-header" class="et_nav_text_color_dark">
+			<div class="container clearfix">
+							<a href="https://astrobites.org/">
+					<img src="https://astrobites.org/wp-content/uploads/2015/02/Small-logo5.png" alt="astrobites" id="logo" />
+				</a>
+
+				<div id="et-top-navigation">
+					<nav id="top-menu-nav">
+					<ul id="top-menu" class="nav"><li id="menu-item-5562" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-5562"><a href="https://astrobites.org/about/">About</a>
+<ul  class="sub-menu">
+	<li id="menu-item-51310" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51310"><a href="https://astrobites.org/about/">About Astrobites</a></li>
+	<li id="menu-item-5561" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5561"><a href="https://astrobites.org/meet-the-authors/">Meet the Authors</a></li>
+</ul>
+</li>
+<li id="menu-item-51311" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-51311"><a href="http://astrobites.org/#latest">Latest Research</a>
+<ul  class="sub-menu">
+	<li id="menu-item-51312" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-51312"><a href="https://astrobites.org/category/daily-paper-summaries/">Daily Paper Summaries</a></li>
+	<li id="menu-item-51313" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-51313"><a href="https://astrobites.org/category/daily-paper-summaries/classics/">Classics</a></li>
+	<li id="menu-item-51314" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-51314"><a href="https://astrobites.org/category/undergraduate-research/">Undergrad Research</a></li>
+</ul>
+</li>
+<li id="menu-item-51315" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-51315"><a href="http://astrobites.org/#beyond">Beyond astro-ph</a>
+<ul  class="sub-menu">
+	<li id="menu-item-51318" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-51318"><a href="https://astrobites.org/category/career-navigation/">Career Navigation</a></li>
+	<li id="menu-item-51317" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-51317"><a href="https://astrobites.org/category/personal-experiences/">Personal Experiences</a></li>
+	<li id="menu-item-51316" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-51316"><a href="https://astrobites.org/category/current-events/">Current Events</a></li>
+	<li id="menu-item-67459" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-67459"><a href="https://astrobites.org/2017/06/11/astrobites-lesson-plans/">Teaching with Astrobites</a></li>
+</ul>
+</li>
+<li id="menu-item-5560" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-5560"><a href="https://astrobites.org/guides/">Guides</a>
+<ul  class="sub-menu">
+	<li id="menu-item-51319" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51319"><a href="https://astrobites.org/guides/astrobites-graduate-school-guide/">Graduate School</a></li>
+	<li id="menu-item-51321" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51321"><a href="https://astrobites.org/guides/citizen-science-efforts/">Citizen Science</a></li>
+	<li id="menu-item-51320" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51320"><a href="https://astrobites.org/guides/astronomy-the-electromagnetic-spectrum/">The Electromagnetic Spectrum</a></li>
+	<li id="menu-item-51324" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51324"><a href="https://astrobites.org/guides/guide-to-major-telescopes/">Major Telescopes</a></li>
+	<li id="menu-item-51323" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51323"><a href="https://astrobites.org/guides/guide-to-astrophysical-software/">Astrophysical Software</a></li>
+	<li id="menu-item-51325" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51325"><a href="https://astrobites.org/guides/spectroscopy-and-spectral-lines/">Guide to Spectroscopy and Spectral Lines</a></li>
+	<li id="menu-item-51322" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51322"><a href="https://astrobites.org/guides/galaxy-and-agn-types/">Guide to Classification of Galaxies and AGNs</a></li>
+</ul>
+</li>
+</ul>					</nav>
+
+					
+										<div id="et_top_search">
+						<span id="et_search_icon"></span>
+						<form role="search" method="get" class="et-search-form et-hidden" action="https://astrobites.org/">
+						<input type="search" class="et-search-field" placeholder="Search &hellip;" value="" name="s" title="Search for:" />						</form>
+					</div>
+					
+					<div id="et_mobile_nav_menu">
+			<a href="#" class="mobile_nav closed">
+				<span class="select_page">Select Page</span>
+				<span class="mobile_menu_bar"></span>
+			</a>
+		</div>				</div> <!-- #et-top-navigation -->
+			</div> <!-- .container -->
+		</header> <!-- #main-header -->
+
+		<div id="et-main-area">
+<div id="main-content">
+	<div class="container">
+		<div id="content-area" class="clearfix">
+			<div id="left-area">
+							
+				<article id="post-19307" class="et_pb_post post-19307 post type-post status-publish format-standard has-post-thumbnail hentry category-daily-paper-summaries tag-color-magnitude-relation tag-galaxy-clusters tag-red-sequence">
+					<h1>The Red Sequence Method for Galaxy Cluster Detection</h1>
+
+				<p class="post-meta"> by <a href="https://astrobites.org/author/rfoltz/" title="Posts by Ryan Foltz" rel="author">Ryan Foltz</a> | Mar 27, 2012 | <a href="https://astrobites.org/category/daily-paper-summaries/" rel="category tag">Daily Paper Summaries</a> | <span class="comments-number"><a href="https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/#respond">2 comments</a></span></p>
+					
+					<div class="entry-content">
+					<ul>
+<li><strong>Title:</strong> <a onclick="javascript:pageTracker._trackPageview('/outgoing/arxiv.org/abs/astro-ph/0004092');"  href="http://arxiv.org/abs/astro-ph/0004092">A New Method For Galaxy Cluster Detection I: The Algorithm</a></li>
+<li><strong>Authors:</strong> Michael D. Gladders, H.K.C. Yee</li>
+<li><strong>First Authors&#8217; Institution:</strong> University of Toronto</li>
+</ul><p><strong>Introduction</strong></p><p>In this post, I&#8217;d like to discuss a slightly older paper. It&#8217;s worth discussing, though, because in the process we can learn a lot about galaxy cluster science. It&#8217;s also not every day that someone comes up with a new method for finding galaxy clusters, which is what this paper is all about. The method described by this paper is still relatively young, and any new detection method can help fill gaps left by our other methods.</p><p><div id="attachment_19312" style="width: 310px" class="wp-caption alignleft"><a onclick="javascript:pageTracker._trackPageview('/outgoing/astrobites.com/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/abell_1689/');"  href="http://astrobites.com/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/abell_1689/" rel="attachment wp-att-19312"><img class="size-medium wp-image-19312" title="abell_1689" src="http://astrobites.com/wp-content/uploads/2012/03/abell_1689-300x300.jpg" alt="" width="300" height="300" srcset="https://astrobites.org/wp-content/uploads/2012/03/abell_1689-300x300.jpg 300w, https://astrobites.org/wp-content/uploads/2012/03/abell_1689-150x150.jpg 150w, https://astrobites.org/wp-content/uploads/2012/03/abell_1689-1024x1024.jpg 1024w, https://astrobites.org/wp-content/uploads/2012/03/abell_1689-1080x1080.jpg 1080w, https://astrobites.org/wp-content/uploads/2012/03/abell_1689.jpg 1488w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">The rich cluster Abell 1689. Abell found it first, so he got to name it. Note the gravitationally-lensed images of galaxies (the light blue streaks), indicating a high concentration of mass. Image from the Hubble Space Telescope.</p></div></p><p>Think about it: how would you find a galaxy cluster? It isn&#8217;t necessarily easy. The <a onclick="javascript:pageTracker._trackPageview('/outgoing/en.wikipedia.org/wiki/Virgo_Cluster');"  href="http://en.wikipedia.org/wiki/Virgo_Cluster">Virgo Cluster</a> is the largest nearby cluster, but it&#8217;s roughly 50 million light years away, and its central core only spans about 7 square degrees of the sky. Since the Virgo Cluster is in our cosmic back yard, any other clusters we hope to detect will appear even smaller. You might think the best idea is just to observe a large part of the sky, divide it up into regions of fixed size, and then count how many galaxies you see per region. Regions with a high number density would then likely be clusters.</p><p>In fact, that&#8217;s exactly what <a onclick="javascript:pageTracker._trackPageview('/outgoing/en.wikipedia.org/wiki/George_O._Abell');"  href="http://en.wikipedia.org/wiki/George_O._Abell">George Abell</a> did in order to compose the historic Abell catalog of galaxy clusters: he pored over a stack of photographs from the Palomar Observatory with a magnifying glass, counting galaxies by hand. It was the first cluster survey of its kind, finding over 4,000 clusters, and Abell published his data in 1958.</p><p>As you might imagine, this method can lead to a &#8220;false positive&#8221; detection if a bunch of galaxies at different distances just happen to line up on a line of sight, creating a galaxy overdensity in the sky when really they&#8217;re not part of one continuous structure (see figure 2). What we really want is a method that finds not just a visual overdensity but an overdensity in galaxies at roughly the same redshift.</p><p><div id="attachment_19313" style="width: 160px" class="wp-caption alignright"><a onclick="javascript:pageTracker._trackPageview('/outgoing/astrobites.com/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/projection/');"  href="http://astrobites.com/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/projection/" rel="attachment wp-att-19313"><img class="size-thumbnail wp-image-19313" title="projection effect" src="http://astrobites.com/wp-content/uploads/2012/03/projection-150x150.jpg" alt="an illustration of the projection effect" width="150" height="150" /></a><p class="wp-caption-text">Here we see my crude illustration of the projection effect. Black dots represent galaxies. Even though they&#8217;re at vastly different distances and therefore do not form a cluster, when we observe them they appear spatially clustered (the red dots).</p></div></p><p><strong>The Red Sequence Method</strong></p><p>A few major cluster detection methods have been used since Abell&#8217;s time. Clusters contain a lot of hot gas, which radiates X-rays in a process known as <a onclick="javascript:pageTracker._trackPageview('/outgoing/en.wikipedia.org/wiki/Bremsstrahlung');"  href="http://en.wikipedia.org/wiki/Bremsstrahlung">Bremsstrahlung radiation</a>; clusters can therefore be found thanks to their X-ray luminosity. A more exotic method uses the fact that cosmic microwave background radiation photons will be bumped to higher energies by interacting with the hot cluster gas (the <a onclick="javascript:pageTracker._trackPageview('/outgoing/en.wikipedia.org/wiki/Sunyaev%E2%80%93Zel');"  href="http://en.wikipedia.org/wiki/Sunyaev%E2%80%93Zel'dovich_effect">Sunyaev–Zel&#8217;dovich effect</a>).</p><p>The paper we&#8217;re looking at in this post proposed a new detection method when it was published in 2000. The method cleverly exploits the fact that galaxy clusters all contain a well-defined, highly regular population of elliptical and lenticular galaxies, known as the <a onclick="javascript:pageTracker._trackPageview('/outgoing/astrobites.com/2012/02/21/looking-back-in-time-at-galaxy-cluster-formation/');"  href="http://astrobites.com/2012/02/21/looking-back-in-time-at-galaxy-cluster-formation/">red sequence</a>.</p><p><div id="attachment_19314" style="width: 310px" class="wp-caption alignleft"><a onclick="javascript:pageTracker._trackPageview('/outgoing/astrobites.com/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/red_sequence/');"  href="http://astrobites.com/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/red_sequence/" rel="attachment wp-att-19314"><img class="wp-image-19314 size-medium" title="red_sequence" src="https://astrobites.org/wp-content/uploads/2012/03/red_sequence-300x179.png" alt="A figure illustrating a galactic red sequence. Figure reproduced from Scott et al. (2009)." width="300" height="179" srcset="https://astrobites.org/wp-content/uploads/2012/03/red_sequence-300x179.png 300w, https://astrobites.org/wp-content/uploads/2012/03/red_sequence-1024x612.png 1024w, https://astrobites.org/wp-content/uploads/2012/03/red_sequence.png 1046w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">Here&#8217;s an example of a red sequence, from the cluster Abell 1084. Each point describes the color and brightness of an individual galaxy in the cluster. A clear red sequence is present (the black line). The remarkable tightness of the correlation is a general feature of all clusters, which is why a method like this can work. Figure reproduced from <a onclick="javascript:pageTracker._trackPageview('/outgoing/adsabs.harvard.edu/abs/2009MNRAS.394.2098S');"  href="http://adsabs.harvard.edu/abs/2009MNRAS.394.2098S">Stott et al. (2009)</a>.</p></div></p><p>All of these early-type (elliptical and lenticular) galaxies that fall on a cluster&#8217;s red sequence have a tight relationship between their color and magnitude. In other words, an elliptical galaxy in a given cluster with a certain color will have a specific overall brightness. You wouldn&#8217;t necessarily expect such a relationship to exist in nature: why should there be such a tight color-magnitude relation? <a onclick="javascript:pageTracker._trackPageview('/outgoing/arxiv.org/abs/astro-ph/9609160');"  href="http://arxiv.org/abs/astro-ph/9609160">It&#8217;s an interesting and ongoing question</a>.</p><p>Take a look at figure 3 here, showing the red sequence that is in place in cluster Abell 1084. The axes run from bright on the left to dim on the right, and red at the top to blue at the bottom. Each point on this diagram represents the color and magnitude of a galaxy in the cluster, and the circled points are the elliptical and lenticular galaxies. There is a clear, linear relationship in this diagram for such galaxies, showing that the redder ones are brighter. Finding such a tight correlation between parameters is extremely rare in astronomy, and also extremely useful.</p><p>Every galaxy cluster observed to date contains a well-defined red sequence of galaxies. This means that we can potentially find clusters by looking for overdensities of galaxies that form a red sequence. The projection effect would no longer be a problem, because a random selection of galaxies at different redshifts will not form a coherent red sequence. The authors discuss this in detail in section 2 of the paper.</p><p>The method starts by simulating what the red sequence will look like at different redshifts. This is calibrated to match what we see in the nearby Coma cluster, as it is one of the closest and most highly-studied clusters. These simulated red sequences can be compared against what we have already observed in clusters, and since they show good agreement with observations, we can believe them.</p><p>Then you take all of the galaxies in your entire sky survey and assign to each of them a probability that they belong to a red sequence of a specific redshift. This is essentially determined by how close they are to falling exactly on the red-sequence line.</p><p><div id="attachment_19315" style="width: 310px" class="wp-caption alignright"><a onclick="javascript:pageTracker._trackPageview('/outgoing/astrobites.com/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/probability/');"  href="http://astrobites.com/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/probability/" rel="attachment wp-att-19315"><img class="size-medium wp-image-19315 " title="probability" src="http://astrobites.com/wp-content/uploads/2012/03/probability-300x273.png" alt="An illustration of the process of assigning probability to each galaxy" width="300" height="273" /></a><p class="wp-caption-text">This is an example of assigning probabilities to a red sequence at a specific redshift. Each dashed line represents what we expect the red sequence to look like at farther and farther redshifts. The one we&#8217;re specifically concerned with is bracketed by the solid black lines. The size of each data point represents the probability that the given galaxy belongs to the red sequence at this redshift.</p></div></p><p>You then look at the distribution of your most likely red sequence galaxies in the sky. If a bunch of them happen to cluster in an isolated region, then congratulations! You&#8217;ve demonstrated that a compact region of the sky contains a believable population of red sequence galaxies at a specific redshift. In other words, you have a galaxy cluster candidate!</p><p>Of course, you can&#8217;t really believe your results until you go back and confirm through spectroscopic redshift measurements that yes, these galaxies all exist at roughly the same redshift and therefore occupy a compact volume in space. Nevertheless, this is a massive time-saver compared to just doing a spectroscopic survey to begin with, which generally would be prohibitively expensive and time-consuming. This is how all cluster detection surveys proceed, though, and we can also get a handle on how robust the method is by seeing if it can detect clusters we already know about.</p><p>In any case, the authors went on to use this method in their massive <a onclick="javascript:pageTracker._trackPageview('/outgoing/www.astro.utoronto.ca/~gilbank/RCS2/');"  href="http://www.astro.utoronto.ca/~gilbank/RCS2/">Red Sequence Cluster Survey</a>, forming the RCS catalog which published 429 candidate clusters. RCS2 is currently underway. <a onclick="javascript:pageTracker._trackPageview('/outgoing/astrobites.com/2011/09/19/getting-friendly-with-pan-starrs-identifying-galaxy-clusters/');"  href="http://astrobites.com/2011/09/19/getting-friendly-with-pan-starrs-identifying-galaxy-clusters/">The red sequence method has also been applied in the Pan-STARRS survey</a>, and also in the <a onclick="javascript:pageTracker._trackPageview('/outgoing/www.faculty.ucr.edu/~gillianw/SpARCS/');"  href="http://www.faculty.ucr.edu/~gillianw/SpARCS/">Spitzer Adaptation of the Red-Sequence Cluster Survey</a> (SpARCS) survey. It has the potential to detect clusters at redshifts where other methods fail (the 1.5 &lt; z &lt; 2.2 &#8220;cluster desert&#8221; in which there is currently only one known cluster).</p>
+<div class='shareaholic-canvas' data-app-id='11390013' data-app-id-name='post_below_content' data-app='share_buttons' data-title='The Red Sequence Method for Galaxy Cluster Detection' data-link='https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/' data-summary='How do we locate galaxy clusters in the sky? We&#039;ll examine the red sequence method in particular.'></div>
+<div id="wpautbox-below"><ul class="a-tab-nav"><li class="a-tab-active"><a href="#wpautbox_about"><i class="el-icon-user wpautbox-icon"></i> About the Author</a></li></ul><div class="a-tab-container"><div class="a-tab-content" id="wpautbox_about"><div class="wpautbox-avatar"><img alt='' src='https://secure.gravatar.com/avatar/612846c9a9f9a0ad90de2876b63e0227?s=80&d=mm&r=g' srcset='https://secure.gravatar.com/avatar/612846c9a9f9a0ad90de2876b63e0227?s=160&d=mm&r=g 2x' class='avatar avatar-80 photo' height='80' width='80' /></div><div class="wpautbox-author-meta"><h4 class="wpautbox-name">About Ryan Foltz</h4>I'm a second year astrophysics graduate student at the <a onclick="javascript:pageTracker._trackPageview('/outgoing/www.ucr.edu/');"  href="http://www.ucr.edu/">University of California, Riverside</a>. I work with <a onclick="javascript:pageTracker._trackPageview('/outgoing/faculty.ucr.edu/~gillianw/');"  href="http://faculty.ucr.edu/~gillianw/">Gillian Wilson</a> studying galaxy clusters and galaxy evolution.</div></div><div class="wpautbox-socials wpautbox-socials-square wpautbox-socials-colored"></div></div></div><div class='yarpp-related'>
+<h3>Related posts:</h3>
+<div class="yarpp-thumbnails-horizontal">
+<a class='yarpp-thumbnail' href='https://astrobites.org/2012/02/21/looking-back-in-time-at-galaxy-cluster-formation/' title='Looking back in time at galaxy cluster formation'>
+<img width="176" height="143" src="https://astrobites.org/wp-content/uploads/2012/02/slope-evolution-176x143.png" class="attachment-yarpp-thumbnail size-yarpp-thumbnail wp-post-image" alt="the measured change in red sequence slope with redshift" srcset="https://astrobites.org/wp-content/uploads/2012/02/slope-evolution-176x143.png 176w, https://astrobites.org/wp-content/uploads/2012/02/slope-evolution-320x260.png 320w" sizes="(max-width: 176px) 100vw, 176px" /><span class="yarpp-thumbnail-title">Looking back in time at galaxy cluster formation</span></a>
+<a class='yarpp-thumbnail' href='https://astrobites.org/2016/11/28/baby-photos-of-a-galaxy-cluster/' title='Baby Photos of a Galaxy Cluster'>
+<img width="176" height="143" src="https://astrobites.org/wp-content/uploads/2016/11/fig1-176x143.jpg" class="attachment-yarpp-thumbnail size-yarpp-thumbnail wp-post-image" alt="" srcset="https://astrobites.org/wp-content/uploads/2016/11/fig1-176x143.jpg 176w, https://astrobites.org/wp-content/uploads/2016/11/fig1-320x260.jpg 320w" sizes="(max-width: 176px) 100vw, 176px" /><span class="yarpp-thumbnail-title">Baby Photos of a Galaxy Cluster</span></a>
+<a class='yarpp-thumbnail' href='https://astrobites.org/2013/06/22/what-came-before-clusters-protoclusters/' title='What came before clusters? Protoclusters'>
+<img width="176" height="143" src="https://astrobites.org/wp-content/uploads/2013/06/SED1-176x143.png" class="attachment-yarpp-thumbnail size-yarpp-thumbnail wp-post-image" alt="An example showing a model SED fit to observation" srcset="https://astrobites.org/wp-content/uploads/2013/06/SED1-176x143.png 176w, https://astrobites.org/wp-content/uploads/2013/06/SED1-320x260.png 320w" sizes="(max-width: 176px) 100vw, 176px" /><span class="yarpp-thumbnail-title">What came before clusters? Protoclusters</span></a>
+<a class='yarpp-thumbnail' href='https://astrobites.org/2017/08/16/links-in-the-evolution-chain-of-post-starburst-galaxies/' title='Links in the Evolution Chain of Post-Starburst Galaxies'>
+<img width="176" height="143" src="https://astrobites.org/wp-content/uploads/2017/08/Hubbledeeppic-176x143.jpg" class="attachment-yarpp-thumbnail size-yarpp-thumbnail wp-post-image" alt="" srcset="https://astrobites.org/wp-content/uploads/2017/08/Hubbledeeppic-176x143.jpg 176w, https://astrobites.org/wp-content/uploads/2017/08/Hubbledeeppic-320x260.jpg 320w" sizes="(max-width: 176px) 100vw, 176px" /><span class="yarpp-thumbnail-title">Links in the Evolution Chain of Post-Starburst Galaxies</span></a>
+</div>
+</div>
+					</div> <!-- .entry-content -->
+
+					
+					<!-- You can start editing here. -->
+
+<section id="comment-wrap">
+	<h1 id="comments" class="page_title">2 Comments</h1>
+			
+					<ol class="commentlist clearfix">
+					<li class="comment even thread-even depth-1" id="li-comment-428476">
+		<article id="comment-428476" class="comment-body clearfix">
+			<div class="comment_avatar">
+				<img alt='' src='https://secure.gravatar.com/avatar/96a36317a8c89922c2f290d7c37709a6?s=80&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/96a36317a8c89922c2f290d7c37709a6?s=160&amp;d=mm&amp;r=g 2x' class='avatar avatar-80 photo' height='80' width='80' />			</div>
+
+			<div class="comment_postinfo">
+				<span class="fn">KH CHANG</span>				<span class="comment_date">
+				on July 1, 2013 at 9:45 pm				</span>
+										</div> <!-- .comment_postinfo -->
+
+			<div class="comment_area">
+				
+				<div class="comment-content clearfix">
+				<p>Awesome introduction for a student totally new to galaxy clustering !</p>
+<p>Thanks a lot!</p>
+<span class="reply-container"><a rel='nofollow' class='comment-reply-link' href='https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/?replytocom=428476#respond' onclick='return addComment.moveForm( "comment-428476", "428476", "respond", "19307" )' aria-label='Reply to KH CHANG'>Reply</a></span>				</div> <!-- end comment-content-->
+			</div> <!-- end comment_area-->
+		</article> <!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-812656">
+		<article id="comment-812656" class="comment-body clearfix">
+			<div class="comment_avatar">
+				<img alt='' src='https://secure.gravatar.com/avatar/5d65dba94e39106b00f0c515840db9f5?s=80&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/5d65dba94e39106b00f0c515840db9f5?s=160&amp;d=mm&amp;r=g 2x' class='avatar avatar-80 photo' height='80' width='80' />			</div>
+
+			<div class="comment_postinfo">
+				<span class="fn">Ripon Saha</span>				<span class="comment_date">
+				on February 14, 2016 at 2:45 am				</span>
+										</div> <!-- .comment_postinfo -->
+
+			<div class="comment_area">
+				
+				<div class="comment-content clearfix">
+				<p>amazing overview !</p>
+<span class="reply-container"><a rel='nofollow' class='comment-reply-link' href='https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/?replytocom=812656#respond' onclick='return addComment.moveForm( "comment-812656", "812656", "respond", "19307" )' aria-label='Reply to Ripon Saha'>Reply</a></span>				</div> <!-- end comment-content-->
+			</div> <!-- end comment_area-->
+		</article> <!-- .comment-body -->
+</li><!-- #comment-## -->
+			</ol>
+		
+		
+					<div id="trackbacks">
+				<h3 id="trackbacks-title">Trackbacks/Pingbacks</h3>
+				<ol class="pinglist">
+						<li id="comment-813880"><a onclick="javascript:pageTracker._trackPageview('/outgoing/astrobites.org/2016/11/28/baby-photos-of-a-galaxy-cluster/');"  href='https://astrobites.org/2016/11/28/baby-photos-of-a-galaxy-cluster/' rel='external nofollow' class='url'>Baby Photos of a Galaxy Cluster | astrobites</a> - [&#8230;] noticeable feature in a CMD (especially in galaxy clusters) is the red sequence: red, elliptical galaxies are tightly clustered in the&hellip;</li><!-- #comment-## -->
+				</ol>
+			</div>
+						
+		<div id="respond" class="comment-respond">
+							<h3 id="reply-title" class="comment-reply-title">Leave a Reply					<small><a rel="nofollow" id="cancel-comment-reply-link" href="/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/#respond" style="display:none;">Cancel reply</a></small>
+				</h3>
+						<form id="commentform" class="comment-form">
+				<iframe src="https://jetpack.wordpress.com/jetpack-comment/?blogid=35478088&#038;postid=19307&#038;comment_registration=0&#038;require_name_email=1&#038;stc_enabled=1&#038;stb_enabled=1&#038;show_avatars=1&#038;avatar_default=mystery&#038;greeting=Leave+a+Reply&#038;greeting_reply=Leave+a+Reply+to+%25s&#038;color_scheme=light&#038;lang=en_US&#038;jetpack_version=5.4&#038;sig=b973eda4dd4092dc079d8809176e10326b52ed85#parent=https%3A%2F%2Fastrobites.org%2F2012%2F03%2F27%2Fthe-red-sequence-method-for-galaxy-cluster-detection%2F" style="width:100%; height: 430px; border:0;" name="jetpack_remote_comment" class="jetpack_remote_comment" id="jetpack_remote_comment"></iframe>
+				<!--[if !IE]><!-->
+				<script>
+					document.addEventListener('DOMContentLoaded', function () {
+						var commentForms = document.getElementsByClassName('jetpack_remote_comment');
+						for (var i = 0; i < commentForms.length; i++) {
+							commentForms[i].allowTransparency = false;
+							commentForms[i].scrolling = 'no';
+						}
+					});
+				</script>
+				<!--<![endif]-->
+			</form>
+		</div>
+
+		
+		<input type="hidden" name="comment_parent" id="comment_parent" value="" />
+
+			</section>				</article> <!-- .et_pb_post -->
+
+										</div> <!-- #left-area -->
+
+				<div id="sidebar">
+		<div id="blog_subscription-3" class="et_pb_widget jetpack_subscription_widget"><h4 class="widgettitle">Subscribe</h4>
+			<form action="#" method="post" accept-charset="utf-8" id="subscribe-blog-blog_subscription-3">
+				<div id="subscribe-text"><p>Enter your email to receive notifications of new posts.</p>
+</div>					<p id="subscribe-email">
+						<label id="jetpack-subscribe-label" for="subscribe-field-blog_subscription-3">
+							Email Address						</label>
+						<input type="email" name="email" required="required" class="required" value="" id="subscribe-field-blog_subscription-3" placeholder="Email Address" />
+					</p>
+
+					<p id="subscribe-submit">
+						<input type="hidden" name="action" value="subscribe" />
+						<input type="hidden" name="source" value="https://astrobites.org/2012/03/27/the-red-sequence-method-for-galaxy-cluster-detection/" />
+						<input type="hidden" name="sub-type" value="widget" />
+						<input type="hidden" name="redirect_fragment" value="blog_subscription-3" />
+												<input type="submit" value="Subscribe" name="jetpack_subscriptions_widget" />
+					</p>
+							</form>
+
+			<script>
+			/*
+			Custom functionality for safari and IE
+			 */
+			(function( d ) {
+				// In case the placeholder functionality is available we remove labels
+				if ( ( 'placeholder' in d.createElement( 'input' ) ) ) {
+					var label = d.querySelector( 'label[for=subscribe-field-blog_subscription-3]' );
+						label.style.clip 	 = 'rect(1px, 1px, 1px, 1px)';
+						label.style.position = 'absolute';
+						label.style.height   = '1px';
+						label.style.width    = '1px';
+						label.style.overflow = 'hidden';
+				}
+
+				// Make sure the email value is filled in before allowing submit
+				var form = d.getElementById('subscribe-blog-blog_subscription-3'),
+					input = d.getElementById('subscribe-field-blog_subscription-3'),
+					handler = function( event ) {
+						if ( '' === input.value ) {
+							input.focus();
+
+							if ( event.preventDefault ){
+								event.preventDefault();
+							}
+
+							return false;
+						}
+					};
+
+				if ( window.addEventListener ) {
+					form.addEventListener( 'submit', handler, false );
+				} else {
+					form.attachEvent( 'onsubmit', handler );
+				}
+			})( document );
+			</script>
+				
+</div> <!-- end .et_pb_widget --><div id="text-10" class="et_pb_widget widget_text"><h4 class="widgettitle">Follow us on Twitter</h4>			<div class="textwidget"><a href="https://twitter.com/astrobites" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @astrobites</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div>
+		</div> <!-- end .et_pb_widget --><div id="facebook-likebox-3" class="et_pb_widget widget_facebook_likebox"><h4 class="widgettitle"><a href="https://www.facebook.com/astrobites/">Like us on Facebook</a></h4>		<div id="fb-root"></div>
+		<div class="fb-page" data-href="https://www.facebook.com/astrobites/" data-width="340"  data-height="432" data-hide-cover="false" data-show-facepile="true" data-show-posts="false">
+		<div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/astrobites/"><a href="https://www.facebook.com/astrobites/">Like us on Facebook</a></blockquote></div>
+		</div>
+		</div> <!-- end .et_pb_widget --><style scoped type="text/css">.utcw-4bl0389 {word-wrap:break-word}.utcw-4bl0389 span,.utcw-4bl0389 a{border-width:0px}.utcw-4bl0389 span:hover,.utcw-4bl0389 a:hover{border-width:0px}</style><div id="utcw-2" class="et_pb_widget widget_utcw widget_tag_cloud"><h4 class="widgettitle">More Posts About</h4><div class="utcw-4bl0389 tagcloud"><a class="tag-link-269 utcw-tag utcw-tag-stars" href="https://astrobites.org/tag/stars/" style="font-size:15.396825396825px" title="149 topics">stars</a> <a class="tag-link-149 utcw-tag utcw-tag-kepler" href="https://astrobites.org/tag/kepler/" style="font-size:14.825396825397px" title="140 topics">Kepler</a> <a class="tag-link-210 utcw-tag utcw-tag-planet-formation" href="https://astrobites.org/tag/planet-formation/" style="font-size:13.428571428571px" title="118 topics">planet formation</a> <a class="tag-link-229 utcw-tag utcw-tag-radio-astronomy" href="https://astrobites.org/tag/radio-astronomy/" style="font-size:10.507936507937px" title="72 topics">radio astronomy</a> <a class="tag-link-213 utcw-tag utcw-tag-planetary-science" href="https://astrobites.org/tag/planetary-science/" style="font-size:16.095238095238px" title="160 topics">planetary science</a> <a class="tag-link-270 utcw-tag utcw-tag-statistics" href="https://astrobites.org/tag/statistics/" style="font-size:10px" title="64 topics">statistics</a> <a class="tag-link-638 utcw-tag utcw-tag-astrophysics" href="https://astrobites.org/tag/astrophysics/" style="font-size:12.222222222222px" title="99 topics">astrophysics</a> <a class="tag-link-10 utcw-tag utcw-tag-accretion" href="https://astrobites.org/tag/accretion/" style="font-size:10.190476190476px" title="67 topics">accretion</a> <a class="tag-link-218 utcw-tag utcw-tag-protoplanetary-disks" href="https://astrobites.org/tag/protoplanetary-disks/" style="font-size:10.190476190476px" title="67 topics">protoplanetary disks</a> <a class="tag-link-117 utcw-tag utcw-tag-habitability" href="https://astrobites.org/tag/habitability/" style="font-size:10.507936507937px" title="72 topics">habitability</a> <a class="tag-link-300 utcw-tag utcw-tag-transits" href="https://astrobites.org/tag/transits/" style="font-size:11.206349206349px" title="83 topics">transits</a> <a class="tag-link-59 utcw-tag utcw-tag-cosmology-2" href="https://astrobites.org/tag/cosmology-2/" style="font-size:14.761904761905px" title="139 topics">cosmology</a> <a class="tag-link-256 utcw-tag utcw-tag-solar-system" href="https://astrobites.org/tag/solar-system/" style="font-size:12.15873015873px" title="98 topics">solar system</a> <a class="tag-link-287 utcw-tag utcw-tag-supernovae-2" href="https://astrobites.org/tag/supernovae-2/" style="font-size:11.904761904762px" title="94 topics">supernovae</a> <a class="tag-link-30 utcw-tag utcw-tag-binary-stars" href="https://astrobites.org/tag/binary-stars/" style="font-size:11.015873015873px" title="80 topics">binary stars</a> <a class="tag-link-267 utcw-tag utcw-tag-star-formation-2" href="https://astrobites.org/tag/star-formation-2/" style="font-size:15.587301587302px" title="152 topics">star formation</a> <a class="tag-link-296 utcw-tag utcw-tag-theory" href="https://astrobites.org/tag/theory/" style="font-size:12.730158730159px" title="107 topics">theory</a> <a class="tag-link-26 utcw-tag utcw-tag-astronomical-methods" href="https://astrobites.org/tag/astronomical-methods/" style="font-size:11.650793650794px" title="90 topics">astronomical methods</a> <a class="tag-link-62 utcw-tag utcw-tag-dark-matter-2" href="https://astrobites.org/tag/dark-matter-2/" style="font-size:12.47619047619px" title="103 topics">dark matter</a> <a class="tag-link-83 utcw-tag utcw-tag-exoplanets" href="https://astrobites.org/tag/exoplanets/" style="font-size:28.095238095238px" title="349 topics">exoplanets</a> <a class="tag-link-101 utcw-tag utcw-tag-galaxy-evolution" href="https://astrobites.org/tag/galaxy-evolution/" style="font-size:15.015873015873px" title="143 topics">galaxy evolution</a> <a class="tag-link-193 utcw-tag utcw-tag-observations" href="https://astrobites.org/tag/observations/" style="font-size:30px" title="379 topics">observations</a> <a class="tag-link-262 utcw-tag utcw-tag-spectroscopy-2" href="https://astrobites.org/tag/spectroscopy-2/" style="font-size:13.301587301587px" title="116 topics">spectroscopy</a> <a class="tag-link-249 utcw-tag utcw-tag-simulations" href="https://astrobites.org/tag/simulations/" style="font-size:17.555555555556px" title="183 topics">simulations</a> <a class="tag-link-33 utcw-tag utcw-tag-black-holes" href="https://astrobites.org/tag/black-holes/" style="font-size:11.333333333333px" title="85 topics">black holes</a> <a class="tag-link-135 utcw-tag utcw-tag-instrumentation" href="https://astrobites.org/tag/instrumentation/" style="font-size:10px" title="64 topics">instrumentation</a> <a class="tag-link-328 utcw-tag utcw-tag-astronomy" href="https://astrobites.org/tag/astronomy/" style="font-size:13.555555555556px" title="120 topics">astronomy</a> <a class="tag-link-16 utcw-tag utcw-tag-agn" href="https://astrobites.org/tag/agn/" style="font-size:11.650793650794px" title="90 topics">AGN</a> <a class="tag-link-99 utcw-tag utcw-tag-galaxies" href="https://astrobites.org/tag/galaxies/" style="font-size:17.746031746032px" title="186 topics">galaxies</a> <a class="tag-link-273 utcw-tag utcw-tag-stellar-evolution" href="https://astrobites.org/tag/stellar-evolution/" style="font-size:11.714285714286px" title="91 topics">stellar evolution</a></div></div> <!-- end .et_pb_widget --><div id="categories-4" class="et_pb_widget widget_categories"><h4 class="widgettitle">Posts by Category</h4>		<ul>
+	<li class="cat-item cat-item-1325"><a href="https://astrobites.org/category/applications/" title="calls to apply">Applications</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="https://astrobites.org/category/career-navigation/" title="how to become an astronomer">Career Navigation</a>
+</li>
+	<li class="cat-item cat-item-1116"><a href="https://astrobites.org/category/daily-paper-summaries/classics/" title="definitive historical papers">Classics</a>
+</li>
+	<li class="cat-item cat-item-1577"><a href="https://astrobites.org/category/daily-paper-summaries/crossposts/" title="posts from other bite blogs">Crossposts</a>
+</li>
+	<li class="cat-item cat-item-321"><a href="https://astrobites.org/category/current-events/" title="news! sometimes live!">Current Events</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="https://astrobites.org/category/daily-paper-summaries/" title="recent papers">Daily Paper Summaries</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="https://astrobites.org/category/guides/" title="bite-sized topical reviews">Guides</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="https://astrobites.org/category/personal-experiences/" title="opinions and stories">Personal Experiences</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="https://astrobites.org/category/quick-notes/" title="announcements etc.">Quick Notes</a>
+</li>
+	<li class="cat-item cat-item-403"><a href="https://astrobites.org/category/undergraduate-research/" title="selfies by undergraduates">Undergraduate Research</a>
+</li>
+		</ul>
+</div> <!-- end .et_pb_widget --><div id="text-13" class="et_pb_widget widget_text"><h4 class="widgettitle">Our Sister Sites</h4>			<div class="textwidget"><ul>
+
+<li><a href="https://astrobitos.org/">Astrobitos (Astrobites in Spanish)</a>
+
+<li><a href="http://staryab.com/">staryab (Farsi)</a>
+
+<li><a href="http://oceanbites.org/">Oceanbites</a>
+
+<li><a href="http://www.particlebites.com/">Particlebites</a>
+
+<li>
+<a href="http://evobites.com//">Evobites</a>
+
+<li>
+<a href="https://envirobites.org/">Envirobites</a>
+
+<li>
+<a href="https://softbites.org/">Softbites</a>
+
+<li>
+<a href="http://chembites.org/">Chembites</a>
+
+<li>
+<a href="http://bitescis.org/">BiteScis (K12)</a>
+
+<li>
+<a href="https://perbites.wordpress.com/">PERbites (Physics Education Research)</a>
+
+<li>
+<a href="https://oncobites.wordpress.com/">OncoBites (Cancer)</a>
+
+<li>
+<a href="https://immunobites.com/">ImmunoBites</a></div>
+		</div> <!-- end .et_pb_widget --><div id="text-12" class="et_pb_widget widget_text"><h4 class="widgettitle">More Astronomy</h4>			<div class="textwidget"><ul>
+<li><a href="http://aas.org/">AAS</a><br>
+<li><a href="http://arxiv.org/archive/astro-ph">astro-ph</a><br>
+<li><a href="http://voxcharta.org">voxcharta</a><br>
+<li><a href="http://arxiver.wordpress.com">arXiver</a><br>
+<li><a href="http://www.astrobetter.com/">AstroBetter</a><br>
+<li><a href="http://apod.nasa.gov/apod/astropix.html">APOD</a>
+</ul></div>
+		</div> <!-- end .et_pb_widget -->	</div> <!-- end #sidebar -->
+		</div> <!-- #content-area -->
+	</div> <!-- .container -->
+</div> <!-- #main-content -->
+
+
+			<footer id="main-footer">
+				
+
+		
+				<div id="footer-bottom">
+					<div class="container clearfix">
+				<ul class="et-social-icons">
+
+	<li class="et-social-icon et-social-facebook">
+		<a href="https://www.facebook.com/astrobites" class="icon">
+			<span>Facebook</span>
+		</a>
+	</li>
+	<li class="et-social-icon et-social-twitter">
+		<a href="https://twitter.com/astrobites" class="icon">
+			<span>Twitter</span>
+		</a>
+	</li>
+	<li class="et-social-icon et-social-google-plus">
+		<a href="https://plus.google.com/102511635695838558639/posts" class="icon">
+			<span>Google</span>
+		</a>
+	</li>
+	<li class="et-social-icon et-social-rss">
+		<a href="https://astrobites.org/feed/" class="icon">
+			<span>RSS</span>
+		</a>
+	</li>
+
+</ul>
+						<p id="footer-info">
+© 2016 Astrobites | All Rights Reserved  | Supported by <a href="http://aas.org/">AAS</a> | Designed by <a href="http://www.elegantthemes.com" title="Premium WordPress Themes">Elegant Themes</a> | Powered by <a href="http://www.wordpress.org">WordPress</a>						</p>
+					</div>	<!-- .container -->
+				</div>
+			</footer> <!-- #main-footer -->
+		</div> <!-- #et-main-area -->
+
+
+	</div> <!-- #page-container -->
+
+	
+<!-- tracker added by Ultimate Google Analytics plugin v1.6.0: http://www.oratransplant.nl/uga -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-24988289-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+	<div style="display:none">
+	<div class="grofile-hash-map-612846c9a9f9a0ad90de2876b63e0227">
+	</div>
+	<div class="grofile-hash-map-96a36317a8c89922c2f290d7c37709a6">
+	</div>
+	<div class="grofile-hash-map-5d65dba94e39106b00f0c515840db9f5">
+	</div>
+	</div>
+<link rel='stylesheet' id='yarppRelatedCss-css'  href='https://astrobites.org/wp-content/plugins/yet-another-related-posts-plugin/style/related.css?ver=4.8.2' type='text/css' media='all' />
+<script type='text/javascript' src='https://astrobites.org/wp-content/plugins/simple-tooltips/zebra_tooltips.js?ver=4.8.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wpcf7 = {"apiSettings":{"root":"https:\/\/astrobites.org\/wp-json\/contact-form-7\/v1","namespace":"contact-form-7\/v1"},"recaptcha":{"messages":{"empty":"Please verify that you are not a robot."}}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.9'></script>
+<script type='text/javascript' src='https://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201839'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/plugins/wp-author-box-lite/lib/js/jquery.a-tab.js?ver=4.8.2'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/plugins/wp-author-box-lite/lib/js/jquery.wpautbox.js?ver=4.8.2'></script>
+<script type='text/javascript' src='https://secure.gravatar.com/js/gprofiles.js?ver=2018Sepaa'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/plugins/jetpack/modules/wpgroho.js?ver=4.8.2'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-includes/js/comment-reply.min.js?ver=4.8.2'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/themes/Divi/js/jquery.fitvids.js?ver=2.2'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/themes/Divi/js/waypoints.min.js?ver=2.2'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/themes/Divi/js/jquery.magnific-popup.js?ver=2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var et_custom = {"ajaxurl":"https:\/\/astrobites.org\/wp-admin\/admin-ajax.php","images_uri":"https:\/\/astrobites.org\/wp-content\/themes\/Divi\/images","et_load_nonce":"94542c9ac9","subscription_failed":"Please, check the fields below to make sure you entered the correct information.","fill":"Fill","field":"field","invalid":"Invalid email","captcha":"Captcha","prev":"Prev","next":"Next"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/themes/Divi/js/custom.js?ver=2.2'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/themes/Divi/js/smoothscroll.js?ver=2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jpfbembed = {"appid":"249643311490","locale":"en_US"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/plugins/jetpack/_inc/facebook-embed.js'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-includes/js/wp-embed.min.js?ver=4.8.2'></script>
+<script type='text/javascript' src='https://astrobites.org/wp-content/plugins/akismet/_inc/form.js?ver=4.0'></script>
+                			            
+                <script type="text/javascript">
+                    jQuery(function() {
+                                                
+                        jQuery(".tooltips img").closest(".tooltips").css("display", "inline-block");
+                    
+                        new jQuery.Zebra_Tooltips(jQuery('.tooltips').not('.custom_m_bubble'), {
+                            'background_color':     '#000000',
+                            'color':				'#ffffff',
+                            'max_width':  250,
+                            'opacity':    .95, 
+                            'position':    'center'
+                        });
+                        
+                                            
+                    });
+                </script>        
+		
+		<!--[if IE]>
+		<script type="text/javascript">
+			if ( 0 === window.location.hash.indexOf( '#comment-' ) ) {
+				// window.location.reload() doesn't respect the Hash in IE
+				window.location.hash = window.location.hash;
+			}
+		</script>
+		<![endif]-->
+		<script type="text/javascript">
+			(function () {
+				var comm_par_el = document.getElementById( 'comment_parent' ),
+					comm_par = ( comm_par_el && comm_par_el.value ) ? comm_par_el.value : '',
+					frame = document.getElementById( 'jetpack_remote_comment' ),
+					tellFrameNewParent;
+
+				tellFrameNewParent = function () {
+					if ( comm_par ) {
+						frame.src = "https://jetpack.wordpress.com/jetpack-comment/?blogid=35478088&postid=19307&comment_registration=0&require_name_email=1&stc_enabled=1&stb_enabled=1&show_avatars=1&avatar_default=mystery&greeting=Leave+a+Reply&greeting_reply=Leave+a+Reply+to+%25s&color_scheme=light&lang=en_US&jetpack_version=5.4&sig=b973eda4dd4092dc079d8809176e10326b52ed85#parent=https%3A%2F%2Fastrobites.org%2F2012%2F03%2F27%2Fthe-red-sequence-method-for-galaxy-cluster-detection%2F" + '&replytocom=' + parseInt( comm_par, 10 ).toString();
+					} else {
+						frame.src = "https://jetpack.wordpress.com/jetpack-comment/?blogid=35478088&postid=19307&comment_registration=0&require_name_email=1&stc_enabled=1&stb_enabled=1&show_avatars=1&avatar_default=mystery&greeting=Leave+a+Reply&greeting_reply=Leave+a+Reply+to+%25s&color_scheme=light&lang=en_US&jetpack_version=5.4&sig=b973eda4dd4092dc079d8809176e10326b52ed85#parent=https%3A%2F%2Fastrobites.org%2F2012%2F03%2F27%2Fthe-red-sequence-method-for-galaxy-cluster-detection%2F";
+					}
+				};
+
+				
+				if ( 'undefined' !== typeof addComment ) {
+					addComment._Jetpack_moveForm = addComment.moveForm;
+
+					addComment.moveForm = function ( commId, parentId, respondId, postId ) {
+						var returnValue = addComment._Jetpack_moveForm( commId, parentId, respondId, postId ),
+							cancelClick, cancel;
+
+						if ( false === returnValue ) {
+							cancel = document.getElementById( 'cancel-comment-reply-link' );
+							cancelClick = cancel.onclick;
+							cancel.onclick = function () {
+								var cancelReturn = cancelClick.call( this );
+								if ( false !== cancelReturn ) {
+									return cancelReturn;
+								}
+
+								if ( ! comm_par ) {
+									return cancelReturn;
+								}
+
+								comm_par = 0;
+
+								tellFrameNewParent();
+
+								return cancelReturn;
+							};
+						}
+
+						if ( comm_par == parentId ) {
+							return returnValue;
+						}
+
+						comm_par = parentId;
+
+						tellFrameNewParent();
+
+						return returnValue;
+					};
+				}
+
+				
+				// Do the post message bit after the dom has loaded.
+				document.addEventListener( 'DOMContentLoaded', function () {
+					var iframe_url = "https:\/\/jetpack.wordpress.com";
+					if ( window.postMessage ) {
+						if ( document.addEventListener ) {
+							window.addEventListener( 'message', function ( event ) {
+								var origin = event.origin.replace( /^http:\/\//i, 'https://' );
+								if ( iframe_url.replace( /^http:\/\//i, 'https://' ) !== origin ) {
+									return;
+								}
+								jQuery( frame ).height( event.data );
+							});
+						} else if ( document.attachEvent ) {
+							window.attachEvent( 'message', function ( event ) {
+								var origin = event.origin.replace( /^http:\/\//i, 'https://' );
+								if ( iframe_url.replace( /^http:\/\//i, 'https://' ) !== origin ) {
+									return;
+								}
+								jQuery( frame ).height( event.data );
+							});
+						}
+					}
+				})
+
+			})();
+		</script>
+
+		<script type='text/javascript' src='https://stats.wp.com/e-201839.js' async defer></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:5.4',blog:'35478088',post:'19307',tz:'-4',srv:'astrobites.org'} ]);
+	_stq.push([ 'clickTrackerInit', '35478088', '19307' ]);
+</script>
+</body>
+</html>
+
