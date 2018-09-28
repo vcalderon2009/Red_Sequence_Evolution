@@ -135,7 +135,7 @@ def get_parser():
                         Bottom magnitude limit for `mband_1` and `mband_2`.
                         """,
                         type=float,
-                        default=24)
+                        default=24.)
     ## Upper magnitude limit for `mband_1` and `mband_2.`
     parser.add_argument('-mag_max',
                         dest='mag_max',
@@ -143,7 +143,7 @@ def get_parser():
                         Upper magnitude limit for `mband_1` and `mband_2`.
                         """,
                         type=float,
-                        default=17)
+                        default=17.)
     ## Option for removing file
     parser.add_argument('-remove',
                         dest='remove_files',
@@ -272,13 +272,13 @@ def directory_skeleton(param_dict, proj_dict):
         Dictionary with current and new paths to project directories
     """
     ## Master catalogue
-    master_dir_path = param_dict['rs_args'].input_catl_file_path(
+    master_dir_path = param_dict['rs_args'].input_catl_dir_path(
         catl_kind='master', check_exist=False, create_dir=True)
     ## Random catalogue
-    rand_dir_path = param_dict['rs_args'].input_catl_file_path(
+    rand_dir_path = param_dict['rs_args'].input_catl_dir_path(
         catl_kind='random', check_exist=False, create_dir=True)
     ## RedMapper catalogue
-    redmap_dir_path = param_dict['rs_args'].input_catl_file_path(
+    redmap_dir_path = param_dict['rs_args'].input_catl_dir_path(
         catl_kind='redmapper', check_exist=False, create_dir=True)
     ##
     ## Saving to dictionary `proj_dict`
@@ -324,14 +324,17 @@ def download_directory(param_dict, proj_dict):
                 os.remove(kk_local)
                 ## Downloading file
                 cfutils.File_Download_needed(kk_local, kk_remote)
-                ##
-                msg = '{0} Local copy can be found at: {1}'.format(
-                    param_dict['Prog_msg'], kk_local)
+            ##
+            msg = '{0} Local copy can be found at: {1}'.format(
+                param_dict['Prog_msg'], kk_local)
+            print(msg)
         else:
+            ## Downloading file
             cfutils.File_Download_needed(kk_local, kk_remote)
             ##
             msg = '{0} Local copy can be found at: {1}'.format(
                 param_dict['Prog_msg'], kk_local)
+            print(msg)
     # Message
     if param_dict['verbose']:
         print('{0} Download complete!'.format(param_dict['Prog_msg']))
