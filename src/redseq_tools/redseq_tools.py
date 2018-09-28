@@ -389,7 +389,7 @@ class RedSeq(object):
         return catl_filt_path
 
     def extract_filtered_data(self, catl_kind='master', ext='hdf5',
-        remove_file=False):
+        remove_file=False, return_pd=True):
         """
         Extracts the data for the `filtered` data.
 
@@ -408,16 +408,36 @@ class RedSeq(object):
             If True, it removes the `filtered` file. This variable is set
             to `False` by default.
 
+        return_pd : `bool`
+            If `True`, it returns the DataFrame containing the `filtered`
+            version of `catl_kind`. This variable is set to `True` by
+            default.
+
         Returns
         ------------
         catl_filt_data : `pd.DataFrame`
             DataFrame containing the `filtered` data for a given `catl_kind`
-            file.
+            file. This variale is **ONLY** returned if `return_pd == True`.
         """
+        ## Checking input parameters
+        #
+        # `catl_kind`
         if not (catl_kind in ['master']):
-            msg = '`catl_kind` ({1}) is not a valid input variable!'
+            msg = '`catl_kind` ({0}) is not a valid input variable!'
             msg = msg.format(catl_kind)
             raise ValueError(msg)
+        #
+        # `remove_file`
+        if not (isinstance(remove_file, bool)):
+            msg = '`remove_file` ({0}) is not a valid input type!'
+            msg = msg.format(type(remove_file))
+            raise TypeError(msg)
+        #
+        # `return_pd`
+        if not (isinstance(return_pd, bool)):
+            msg = '`return_pd` ({0}) is not a valid input type!'
+            msg = msg.format(type(return_pd))
+            raise TypeError(msg)
         ## `Filtered` filepath
         filtered_filepath = self.catl_filtered_filepath(catl_kind=catl_kind,
                                 check_exist=False, ext=ext)
@@ -433,24 +453,25 @@ class RedSeq(object):
         ## Running only if needed
         if create_file_opt:
             ## Extracting data from `raw` catalogue
-            catl_raw_data = self.extract_input_catl_data(catl_kind=catl_kind)
+            catl_raw_pd = self.extract_input_catl_data(catl_kind=catl_kind)
             ## Filtered data
-            catl_filt_data = catl_raw_data.loc[
-                                (catl_raw_data[self.mband_1] > self.mag_max) &
-                                (catl_raw_data[self.mband_1] < self.mag_min) &
-                                (catl_raw_data[self.mband_2] > self.mag_max) &
-                                (catl_raw_data[self.mband_2] < self.mag_min) &
-                                (num.abs(catl_raw_data[self.mband_1] - catl_raw_data[self.mband_2]) <= self.mag_diff_tresh)]
+            catl_filt_pd = catl_raw_pd.loc[
+                            (catl_raw_pd[self.mband_1] > self.mag_max) &
+                            (catl_raw_pd[self.mband_1] < self.mag_min) &
+                            (catl_raw_pd[self.mband_2] > self.mag_max) &
+                            (catl_raw_pd[self.mband_2] < self.mag_min) &
+                            (num.abs(catl_raw_pd[self.mband_1] - catl_raw_pd[self.mband_2]) <= self.mag_diff_tresh)]
             ##
             ## Resetting indices
-            catl_filt_data.reset_index(drop=True, inplace=True)
+            catl_filt_pd.reset_index(drop=True, inplace=True)
             ## Saving to disk
-            catl_filt_data.to_hdf(filtered_filepath, key='clusters', mode='w')
+            catl_filt_pd.to_hdf(filtered_filepath, key='clusters', mode='w')
             cfutils.File_Exists(filtered_filepath)
         else:
-            catl_filt_data = pd.read_hdf(filtered_filepath)
+            catl_filt_pd = pd.read_hdf(filtered_filepath)
 
-        return catl_filt_data
+        if return_pd:
+            return catl_filt_pd
 
 
 
