@@ -311,11 +311,36 @@ def directory_skeleton(param_dict, proj_dict):
 ## ---------------------------- Main Analysis --------------------------------#
 
 ## Slicing clusters
-def slice_clusters(param_dict, proj_dict):
+def slice_clusters_idx(rm_pd, z_bins):
     """
     Returns all clusters from the DataFrame of clusters between
     a range of specified redshift limits.
+
+    Parameters
+    -----------
+    rm_pd : `pd.DataFrame`
+        DataFrame of cluster centers with ['RA','DEC','Z_LAMBDA'] information.
+
+    z_bins : `numpy.ndarray`
+        Array of the left and right bin edges of the different redshift bins.
+
+    Returns
+    -----------
+    cluster_idx_arr : `list`
+        List of indices of the cluster centers for each of the different
+        redshift bins.
     """
+    # Array of cluster indices
+    cluster_idx_arr = [[] for x in range(len(z_bins))]
+    # Populating array with cluser indices
+    for kk, (zz_low, zz_high) in enumerate(z_bins):
+        # Cluster indices
+        cluster_idx_kk = rm_pd.loc[ (rm_pd['Z_LAMBDA'] >= zz_low) &
+                                    (rm_pd['Z_LAMBDA'] < zz_high)].index.values
+        # Saving to list
+        cluster_idx_arr[kk] = cluster_idx_kk
+
+    return cluster_idx_arr
 
 
 def analysis_main(param_dict, proj_dict):
@@ -348,6 +373,11 @@ def analysis_main(param_dict, proj_dict):
                         param_dict['z_binsize'])
     # Tuples of redshift bins
     z_bins = np.array([[z_arr[kk], z_arr[kk+1]] for kk in range(len(z_arr)-1)])
+    #
+    # Cluster indices for `rm_pd`
+    cluster_idx_arr = slice_clusters_idx(rm_pd, z_bins)
+
+
 
 
 
