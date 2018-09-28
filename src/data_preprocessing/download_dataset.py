@@ -163,7 +163,6 @@ def get_parser():
                         help='Option to print out project parameters',
                         type=_str2bool,
                         default=False)
-
     ## Parsing Objects
     args = parser.parse_args()
 
