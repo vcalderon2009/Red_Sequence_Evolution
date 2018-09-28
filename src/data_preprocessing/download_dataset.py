@@ -336,6 +336,8 @@ def download_directory(param_dict, proj_dict):
     if param_dict['verbose']:
         print('{0} Download complete!'.format(param_dict['Prog_msg']))
 
+### ----| Data Cleaning |--- ###
+
 ### ----| Main Function |--- ###
 
 def main(args):
@@ -358,6 +360,9 @@ def main(args):
     proj_dict = directory_skeleton(param_dict, proj_dict)
     ## Downloading data
     download_directory(param_dict, proj_dict)
+    # Cleaning up the data and saving to file
+    param_dict['rs_args'].extract_filtered_data(catl_kind='master',
+        return_pd=False, remove_file=param_dict['remove_files'])
 
 # Main function
 if __name__=='__main__':
