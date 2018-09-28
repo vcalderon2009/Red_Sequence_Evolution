@@ -27,6 +27,8 @@ import numpy as num
 import os
 import pandas as pd
 import pickle
+from   astropy.io import fits
+from   astropy.table import Table
 
 # Functions
 
@@ -207,12 +209,69 @@ class RedSeq(object):
                                 self.input_catl_prefix_str(catl_kind=catl_kind),
                                 ext))
         if check_exist:
-            if not (os.path.exists(input_catl_dir)):
-                msg = '`input_catl_dir` ({0}) was not found!'.format(
-                    input_catl_dir)
+            if not (os.path.exists(filepath)):
+                msg = '`filepath` ({0}) was not found!'.format(
+                    filepath)
                 raise FileNotFoundError(msg)
 
         return filepath
+
+    def extract_input_catl_data(self, catl_kind='master', ra_dec_only=True):
+        """
+        Extracts the data from the various sets of external/input files.
+
+        Parameters:
+        ------------
+        catl_kind : {'master', 'random', 'redmapper'}, `str`
+            Option for which kind of catalogue is being analyzed.
+            Options:
+                - `master` : Catalogue of objects.
+                - `random` : Catalogue of random catalogues
+                - `redmapper` : Catalogue of RedMapper Clusters
+
+        ra_dec_only : `bool`, optional
+            If True, only the `RA` and `DEC` columns will be used.
+            This variable is set to `False` by default.
+
+        Returns
+        ------------
+        catl_pd : `pd.DataFrame`
+            DataFrame containing the `raw` data for a given `catl_kind` file.
+        """
+        # Check input parameters
+        #
+        # `catl_kind`
+        if not (catl_kind in ['master', 'redmapper', 'random']):
+            msg = '`catl_kind` ({1}) is not a valid input variable!'
+            msg = msg.format(catl_kind)
+            raise ValueError(msg)
+        #
+        # `ra_dec_only`
+        if not (isinstance(ra_dec_only, bool)):
+            msg = '`ra_dec_only` ({1}) is not a valid type variable!'
+            msg = msg.format(type(ra_dec_only))
+            raise ValueError(msg)
+        ## Path to external file
+        catl_file_path = self.input_catl_file(catl_kind=catl_kind)
+        ## Extracting data
+        if (catl_kind == 'master'):
+            # Reading in as CSV file and converting to pandas
+            catl_pd = pd.read_csv(catl_file_path)
+        else:
+            ## Reading in FITS file and converting to pandas
+            catl_fits_data = fits.getdata(catl_file_path)
+            ## Converting to Astropy Table object
+            catl_table_data = Table(catl_fits_data)
+            catl_fits_data  = None
+            # Selecting columns if necessary
+            if ra_dec_only:
+                # Columns to choose
+                catl_table_data = catl_table_data['RA','DEC']
+            # Converting to DataFrame
+            catl_pd = catl_table_data.to_pandas()
+
+        return catl_pd
+
 
 
 
