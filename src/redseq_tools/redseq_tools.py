@@ -46,8 +46,8 @@ class RedSeq(object):
         super().__init__()
         ## Assigning variables
         # Downloading dataset
-        self.mband_1        = kwargs.get('mband_1', 'g')
-        self.mband_2        = kwargs.get('mband_2', 'z')
+        self.mband_1        = kwargs.get('mband_1', 'MAG_AUTO_G')
+        self.mband_2        = kwargs.get('mband_2', 'MAG_AUTO_Z')
         self.mag_diff_tresh = kwargs.get('mag_diff_tresh', 4.)
         self.mag_min        = kwargs.get('mag_min', 24)
         self.mag_max        = kwargs.get('mag_max', 17)
@@ -62,7 +62,7 @@ class RedSeq(object):
         # Extra variables
         self.proj_dict      = cwpaths.cookiecutter_paths(__file__)
 
-    def input_catl_prefix_str(self, catl_kind='master', ext='csv'):
+    def input_catl_prefix_str(self, catl_kind='master'):
         """
         Prefix string for the main catalogues
 
@@ -144,8 +144,8 @@ class RedSeq(object):
             msg = msg.format(catl_kind)
             raise ValueError(msg)
         # Path to directory
-        input_catl_dir = os.path.join(   self.proj_dict['ext_dir'],
-                                    catl_kind)
+        input_catl_dir = os.path.join(  self.proj_dict['ext_dir'],
+                                        catl_kind)
         # Creating directory
         if create_dir:
             cfutils.Path_Folder(input_catl_dir)
@@ -271,6 +271,189 @@ class RedSeq(object):
             catl_pd = catl_table_data.to_pandas()
 
         return catl_pd
+
+    def catl_filtered_dir(self, catl_kind='master', check_exist=True,
+        create_dir=False):
+        """
+        Path to the `filtered` file for `master`, after having applied all
+        of the magnitude and redshift cuts.
+
+        Parameters:
+        ------------
+        catl_kind : {'master'}, `str`
+            Option for which kind of catalogue is being analyzed.
+            Options:
+                - `master` : Catalogue of objects.
+
+        check_exist : `bool`, optional
+            If `True`, it checks for whether or not the file exists.
+            This variable is set to `False` by default.
+
+        create_dir : `bool`, optional
+            If `True`, it creates the directory if it does not exist.
+            This variable is set to `False` by default.
+
+        Returns
+        ------------
+        filtered_dir path : `str`
+            Path to the `filtered` version of `master` file.
+        """
+        # Check input parameters
+        # `check_exist`
+        if not (isinstance(check_exist, bool)):
+            msg = '`check_exist` ({0}) must be of `boolean` type!'.format(
+                type(check_exist))
+            raise TypeError(msg)
+        #
+        # `create_dir`
+        if not (isinstance(create_dir, bool)):
+            msg = '`create_dir` ({0}) must be of `boolean` type!'.format(
+                type(create_dir))
+            raise TypeError(msg)
+        #
+        # `catl_kind`
+        if not (catl_kind in ['master', 'redmapper', 'random']):
+            msg = '`catl_kind` ({1}) is not a valid input variable!'
+            msg = msg.format(catl_kind)
+            raise ValueError(msg)
+        # Path to directory
+        filtered_dir = os.path.join(self.proj_dict['int_dir'],
+                                    'filtered',
+                                    catl_kind)
+        # Creating directory
+        if create_dir:
+            cfutils.Path_Folder(filtered_dir)
+        # Check for its existence
+        if check_exist:
+            if not (os.path.exists(filtered_dir)):
+                msg = '`filtered_dir` ({0}) was not found!'.format(
+                    filtered_dir)
+                raise FileNotFoundError(msg)
+
+        return filtered_dir
+
+    def catl_filtered_filepath(self, catl_kind='master', check_exist=True,
+        ext='hdf5'):
+        """
+        Path to the `filtered` file for `master`, after having applied all
+        of the magnitude and redshift cuts.
+
+        Parameters:
+        ------------
+        catl_kind : {'master'}, `str`
+            Option for which kind of catalogue is being analyzed.
+            Options:
+                - `master` : Catalogue of objects.
+
+        check_exist : `bool`, optional
+            If `True`, it checks for whether or not the file exists.
+            This variable is set to `False` by default.
+
+        ext : {'hdf5'}, optional
+            Extension of th `filtered` catalogue file. This variable is set to
+            'hdf5' by default.
+        
+        Returns
+        ------------
+        filtered_dir path : `str`
+            Path to the `filtered` version of `master` file.
+        """
+        # Check input parameters
+        # `check_exist`
+        if not (isinstance(check_exist, bool)):
+            msg = '`check_exist` ({0}) must be of `boolean` type!'.format(
+                type(check_exist))
+            raise TypeError(msg)
+        #
+        # `catl_kind`
+        if not (catl_kind in ['master']):
+            msg = '`catl_kind` ({1}) is not a valid input variable!'
+            msg = msg.format(catl_kind)
+            raise ValueError(msg)
+        # Path to directory
+        filtered_dir = self.catl_filtered_dir(catl_kind=catl_kind,
+                        check_exist=False, create_dir=True)
+        # Path to `filtered` catalogue
+        catl_filt_path = os.path.join(filtered_dir,
+                            '{0}_{1}.{2}'.format(
+                                filtered_dir,
+                                self.input_catl_prefix_str(catl_kind=catl_kind),
+                                ext))
+        # Check for its existence
+        if check_exist:
+            if not (os.path.exists(catl_filt_path)):
+                msg = '`catl_filt_path` ({0}) was not found!'.format(
+                    catl_filt_path)
+                raise FileNotFoundError(msg)
+
+        return catl_filt_path
+
+    def extract_filtered_data(self, catl_kind='master', ext='hdf5',
+        remove_file=False):
+        """
+        Extracts the data for the `filtered` data.
+
+        Parameters:
+        ------------
+        catl_kind : {'master'}, `str`
+            Option for which kind of catalogue is being analyzed.
+            Options:
+                - `master` : Catalogue of objects.
+
+        ext : {'hdf5'}, optional
+            Extension of th `filtered` catalogue file. This variable is set to
+            'hdf5' by default.
+
+        remove_file : `bool`
+            If True, it removes the `filtered` file. This variable is set
+            to `False` by default.
+
+        Returns
+        ------------
+        catl_filt_data : `pd.DataFrame`
+            DataFrame containing the `filtered` data for a given `catl_kind`
+            file.
+        """
+        if not (catl_kind in ['master']):
+            msg = '`catl_kind` ({1}) is not a valid input variable!'
+            msg = msg.format(catl_kind)
+            raise ValueError(msg)
+        ## `Filtered` filepath
+        filtered_filepath = self.catl_filtered_filepath(catl_kind=catl_kind,
+                                check_exist=False, ext=ext)
+        # Checking if file exists
+        if os.path.exists(filtered_filepath):
+            if remove_file:
+                os.remove(filtered_filepath)
+                create_file_opt = True
+            else:
+                create_file_opt = False
+        else:
+            create_file_opt = False
+        ## Running only if needed
+        if create_file_opt:
+            ## Extracting data from `raw` catalogue
+            catl_raw_data = self.extract_input_catl_data(catl_kind=catl_kind)
+            ## Filtered data
+            catl_filt_data = catl_raw_data.loc[
+                                (catl_raw_data[self.mband_1] > self.mag_max) &
+                                (catl_raw_data[self.mband_1] < self.mag_min) &
+                                (catl_raw_data[self.mband_2] > self.mag_max) &
+                                (catl_raw_data[self.mband_2] < self.mag_min) &
+                                (num.abs(catl_raw_data[self.mband_1] - catl_raw_data[self.mband_2]) <= self.mag_diff_tresh)]
+            ##
+            ## Resetting indices
+            catl_filt_data.reset_index(drop=True, inplace=True)
+            ## Saving to disk
+            catl_filt_data.to_hdf(filtered_filepath, key='clusters', mode='w')
+            cfutils.File_Exists(filtered_filepath)
+        else:
+            catl_filt_data = pd.read_hdf(filtered_filepath)
+
+        return catl_filt_data
+
+
+
 
 
 

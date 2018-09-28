@@ -108,15 +108,17 @@ def get_parser():
                         dest='mband_1',
                         help='First apparent magnitude band to analyze.',
                         type=str,
-                        choices=['g','r','i','z','Y'],
-                        default='g')
+                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
+                        'MAG_AUTO_Z','MAG_AUTO_Y'],
+                        default='MAG_AUTO_G')
     ## 2nd Magnitude band
     parser.add_argument('-mband_2',
                         dest='mband_2',
                         help='Second apparent magnitude band to analyze.',
                         type=str,
-                        choices=['g','r','i','z','Y'],
-                        default='z')
+                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
+                        'MAG_AUTO_Z','MAG_AUTO_Y'],
+                        default='MAG_AUTO_Z')
     ## Maximum difference between `mband_1` and `mband_2`
     parser.add_argument('-mag_diff_tresh',
                         dest='mag_diff_tresh',
