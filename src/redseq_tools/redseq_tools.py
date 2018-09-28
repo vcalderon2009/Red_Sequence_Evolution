@@ -58,7 +58,7 @@ class RedSeq(object):
         self.zbin           = kwargs.get('zbin', 0.0125)
         self.zmin           = kwargs.get('zmin', 0.4)
         self.zmax           = kwargs.get('zmax', 1.0)
-        self.input_loc      = kwargs.get('input_loc', 'RedMapper')
+        self.input_loc      = kwargs.get('input_catl_loc', 'RedMapper')
         # Extra variables
         self.proj_dict      = cwpaths.cookiecutter_paths(__file__)
 

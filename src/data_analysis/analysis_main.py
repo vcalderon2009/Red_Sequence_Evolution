@@ -45,6 +45,8 @@ from progressbar import (Bar, ETA, FileTransferSpeed, Percentage, ProgressBar,
                         ReverseBar, RotatingMarker)
 from tqdm import tqdm
 
+from src.redseq_tools import RedSeq
+
 # Extra-modules
 import argparse
 from argparse import ArgumentParser
@@ -145,7 +147,7 @@ def get_parser():
                         Bottom magnitude limit for `mband_1` and `mband_2`.
                         """,
                         type=float,
-                        default=24)
+                        default=24.)
     ## Upper magnitude limit for `mband_1` and `mband_2.`
     parser.add_argument('-mag_max',
                         dest='mag_max',
@@ -153,7 +155,7 @@ def get_parser():
                         Upper magnitude limit for `mband_1` and `mband_2`.
                         """,
                         type=float,
-                        default=17)
+                        default=17.)
     ## Aperture radius in 'arcseconds'
     parser.add_argument('-radius_size',
                         dest='radius_size',
@@ -179,13 +181,6 @@ def get_parser():
                         help='Minimim redshift to analyze.',
                         type=_check_pos_val,
                         default=0.4)
-    ## Choice of the input galaxy cluster location catalogue
-    parser.add_argument('-input_catl_loc',
-                        dest='name_variable',
-                        help='Description',
-                        type=str,
-                        choices=['A'],
-                        default='A')
     ## Minimum redshift value
     parser.add_argument('-z_max',
                         dest='z_max',
@@ -305,10 +300,44 @@ def directory_skeleton(param_dict, proj_dict):
     proj_dict : `dict`
         Dictionary with current and new paths to project directories
     """
+    ## Path to the output directory of the 'analysis' step.
+    analysis_outdir = param_dict['rs_args'].analysis_out_dir(check_exist=False,
+        create_dir=True)
+    ## Adding to dictionary
+    proj_dict['analysis_outdir'] = analysis_outdir
     
-
-
     return proj_dict
+
+## ---------------------------- Main Analysis --------------------------------#
+
+## Slicing clusters
+# def slice_clusters(param_dict, proj_dict)
+
+
+def analysis_main(param_dict, proj_dict):
+    """
+    Main analysis of the Red Sequence. It produces the necessary files of
+    the Red Sequence at given redshifts, magnitudes, etc.
+
+    Parameters
+    ----------
+    param_dict : `dict`
+        Dictionary with `project` variables
+
+    proj_dict : `dict`
+        Dictionary with info of the project that uses the
+        `Data Science` Cookiecutter template.
+    """
+    # Constants
+    Prog_msg = param_dict['Prog_msg']
+    ## Reading in data
+    # `Master` catalogue
+    master_pd = param_dict['rs_args'].extract_filtered_data(catl_kind='master')
+    # `Random` catalogue
+    rand_pd = param_dict['rs_args'].extract_input_catl_data(catl_kind='random')
+    # `RedMapper` catalogue
+    rm_pd = param_dict['rs_args'].extract_input_catl_data(catl_kind='redmapper')
+
 
 def main(args):
     """
@@ -338,8 +367,6 @@ def main(args):
             print('{0} `{1}`: {2}'.format(Prog_msg, key, key_val))
     print('\n'+50*'='+'\n')
     ## -- Main Analysis -- ##
-    
-
 
 # Main function
 if __name__=='__main__':
