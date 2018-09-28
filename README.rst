@@ -7,7 +7,7 @@ Red_Sequence_Evolution
 
 Demonstration of Red Sequence Evolution for Galaxy Clusters in Color-Magnitude diagrams
 
-**Author**: Victor Calderon (`victor.calderon@vanderbilt.edu <mailto:victor.calderon@vanderbilt.edu>`_) and Gourav Khullar (`gkhullar@uchicago.edu <mailto:gkhullar@uchicago.edu>`_ )
+**Author**: Victor Calderon (`victor.calderon@vanderbilt.edu <mailto:victor.calderon@vanderbilt.edu>`_) and Gourav Khullar (`gkhullar@uchicago.edu <mailto:gkhullar@uchicago.edu>`_)
 
 For further information on how to use the scripts of this project,
 got the documentation shown above.
