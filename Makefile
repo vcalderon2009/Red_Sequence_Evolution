@@ -27,7 +27,7 @@ MAGDIFF_THR    = 4.
 MAG_MIN        = 24
 MAG_MAX        = 17
 VERBOSE        = "True"
-REMOVE_FILES   = "True"
+REMOVE_FILES   = "False"
 
 # ANALYSIS - VARIABLES
 RADIUS_SIZE    = 5

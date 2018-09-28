@@ -49,8 +49,8 @@ class RedSeq(object):
         self.mband_1        = kwargs.get('mband_1', 'MAG_AUTO_G')
         self.mband_2        = kwargs.get('mband_2', 'MAG_AUTO_Z')
         self.mag_diff_tresh = kwargs.get('mag_diff_tresh', 4.)
-        self.mag_min        = kwargs.get('mag_min', 24)
-        self.mag_max        = kwargs.get('mag_max', 17)
+        self.mag_min        = kwargs.get('mag_min', 24.)
+        self.mag_max        = kwargs.get('mag_max', 17.)
         # Analysis
         self.radius         = kwargs.get('radius', 5./3600.)
         self.radius_unit    = kwargs.get('radius_unit', 'deg')
@@ -374,9 +374,9 @@ class RedSeq(object):
         filtered_dir = self.catl_filtered_dir(catl_kind=catl_kind,
                         check_exist=False, create_dir=True)
         # Path to `filtered` catalogue
-        catl_filt_path = os.path.join(filtered_dir,
-                            '{0}_{1}.{2}'.format(
+        catl_filt_path = os.path.join(
                                 filtered_dir,
+                                '{0}_filtered.{1}'.format(
                                 self.input_catl_prefix_str(catl_kind=catl_kind),
                                 ext))
         # Check for its existence
@@ -449,7 +449,7 @@ class RedSeq(object):
             else:
                 create_file_opt = False
         else:
-            create_file_opt = False
+            create_file_opt = True
         ## Running only if needed
         if create_file_opt:
             ## Extracting data from `raw` catalogue
