@@ -142,6 +142,15 @@ def get_parser():
                         """,
                         type=float,
                         default=17)
+    ## Option for removing file
+    parser.add_argument('-remove',
+                        dest='remove_files',
+                        help="""
+                        Delete files from previous analyses with same
+                        parameters
+                        """,
+                        type=_str2bool,
+                        default=False)
     ## Program message
     parser.add_argument('-progmsg',
                         dest='Prog_msg',
@@ -222,6 +231,11 @@ def add_to_dict(param_dict):
 
     """
     ## Paths to online files
+    # Master catalogue
+    master_url = os.path.join(  'http://lss.phy.vanderbilt.edu/groups',
+                                'Red_Sequence',
+                                'test.csv')
+    cweb.url_checker(master_url)
     # Random catalogue
     rand_url = os.path.join('http://risa.stanford.edu/redmapper/v6.3',
                             'redmapper_sva1_public_v6.3_randoms.fits.gz')
@@ -232,8 +246,9 @@ def add_to_dict(param_dict):
     cweb.url_checker(redmap_url)
     ###
     ### To dictionary
-    param_dict['rand_url'         ] = rand_url
-    param_dict['redmap_url'       ] = redmap_url
+    param_dict['master_url'] = master_url
+    param_dict['rand_url'  ] = rand_url
+    param_dict['redmap_url'] = redmap_url
 
     return param_dict
 
@@ -288,17 +303,34 @@ def download_directory(param_dict, proj_dict):
         `Data Science` Cookiecutter template.
     """
     ## Creating command to execute download
-    kind_arr = ['random'       , 'redmapper'      ]
-    keys_arr = ['rand_dir_path', 'redmap_dir_path']
-    url_arr  = ['rand_url'     , 'redmap_url'     ]
+    kind_arr = ['random'       , 'redmapper'      , 'master']
+    keys_arr = ['rand_dir_path', 'redmap_dir_path', 'master_dir_path']
+    url_arr  = ['rand_url'     , 'redmap_url'     , 'master_url']
     # Looping over each instance
     for kk, (kind_kk, key_kk, url_kk) in enumerate(zip(kind_arr, keys_arr, url_arr)):
+        if param_dict['verbose']:
+            print('{0} Downloading: `{1}`'.format(param_dict['Prog_msg'],
+                kind_kk))
         ## Paths to local files
         kk_local = param_dict['rs_args'].input_catl_file(catl_kind=kind_kk,
                         check_exist=False)
         kk_remote = param_dict[url_kk]
-        ## Downloading file
-        cfutils.File_Download_needed(kk_local, kk_remote)
+        ## Deleting if necessary
+        if (os.path.exists(kk_local)):
+            # Checking if to delete the local copy of the file or not.
+            if param_dict['remove_files']:
+                # Removing file
+                os.remove(kk_local)
+                ## Downloading file
+                cfutils.File_Download_needed(kk_local, kk_remote)
+                ##
+                msg = '{0} Local copy can be found at: {1}'.format(
+                    param_dict['Prog_msg'], kk_local)
+        else:
+            cfutils.File_Download_needed(kk_local, kk_remote)
+            ##
+            msg = '{0} Local copy can be found at: {1}'.format(
+                param_dict['Prog_msg'], kk_local)
     # Message
     if param_dict['verbose']:
         print('{0} Download complete!'.format(param_dict['Prog_msg']))
@@ -325,24 +357,6 @@ def main(args):
     proj_dict = directory_skeleton(param_dict, proj_dict)
     ## Downloading data
     download_directory(param_dict, proj_dict)
-    
-    ##
-    ## Checking if there is a local version of the catalogues
-    if param_dict['download_catl_opt']:
-        ##
-        ## Creating Folder Structure
-        # proj_dict  = directory_skeleton(param_dict, cwpaths.cookiecutter_paths(__file__))
-        proj_dict  = directory_skeleton(param_dict, cwpaths.cookiecutter_paths('./'))
-        ##
-        ## Printing out project variables
-        print('\n'+50*'='+'\n')
-        for key, key_val in sorted(param_dict.items()):
-            if key !='Prog_msg':
-                print('{0} `{1}`: {2}'.format(Prog_msg, key, key_val))
-        print('\n'+50*'='+'\n')
-        ##
-        ## Downloading necessary data
-        download_directory(param_dict, proj_dict)
 
 # Main function
 if __name__=='__main__':
