@@ -98,7 +98,7 @@ class RedSeq(object):
 
         return catl_pre_str
 
-    def input_catl_file_path(self, catl_kind='master', check_exist=True,
+    def input_catl_dir_path(self, catl_kind='master', check_exist=True,
         create_dir=False):
         """
         Path to the file being analyzed.
@@ -204,7 +204,7 @@ class RedSeq(object):
             ext = 'fits'
         ##
         ## Path to the input file
-        filepath = os.path.join(self.input_catl_file_path(catl_kind=catl_kind),
+        filepath = os.path.join(self.input_catl_dir_path(catl_kind=catl_kind),
                             '{0}.{1}'.format(
                                 self.input_catl_prefix_str(catl_kind=catl_kind),
                                 ext))
@@ -472,6 +472,122 @@ class RedSeq(object):
 
         if return_pd:
             return catl_filt_pd
+
+    def analysis_file_pre_str(self):
+        """
+        Prefix string of the analysis output file
+
+        Returns
+        ---------
+        catl_pre_arr : `str`
+            Prefix string of the analysis output file
+        """
+        # Prefix string
+        catl_pre_arr = [self.mband_1,
+                        self.mband_2,
+                        self.mag_diff_tresh,
+                        self.mag_min,
+                        self.mag_max,
+                        self.radius,
+                        self.radius_unit,
+                        self.cosmo_choice,
+                        self.zbin,
+                        self.zmin,
+                        self.zmax,
+                        self.input_loc]
+        catl_pre_str  = 'catl_analysis_{0}_{1}_magth_{2}_magmin_{3}_'
+        catl_pre_str += 'magmax_{4}_rad_{5}_runit_{6}_cosmo_{7}_'
+        catl_pre_str += 'zbin_{8}_zmin_{9}_zmax_{10}_loc_{11}'
+        catl_pre_str = catl_pre_str.format(*catl_pre_arr)
+
+        return catl_pre_str
+
+    def analysis_out_dir(self, check_exist=True, create_dir=False):
+        """
+        Path to the output directory for final analysis.
+
+        Parameters
+        -----------
+        check_exist : `bool`, optional
+            If `True`, it checks for whether or not the file exists.
+            This variable is set to `False` by default.
+
+        create_dir : `bool`, optional
+            If `True`, it creates the directory if it does not exist.
+            This variable is set to `False` by default.
+
+        Returns
+        ---------
+        outdir_path : `str`
+            Path to the output directory for the final analysis.
+        """
+        # Check input parameters
+        # `check_exist`
+        if not (isinstance(check_exist, bool)):
+            msg = '`check_exist` ({0}) must be of `boolean` type!'.format(
+                type(check_exist))
+            raise TypeError(msg)
+        #
+        # `create_dir`
+        if not (isinstance(create_dir, bool)):
+            msg = '`create_dir` ({0}) must be of `boolean` type!'.format(
+                type(create_dir))
+            raise TypeError(msg)
+        # Path to directory
+        outdir_path = os.path.join( self.proj_dict['proc_dir'],
+                                    'analysis')
+        # Creating directory
+        if create_dir:
+            cfutils.Path_Folder(outdir_path)
+        # Check for its existence
+        if check_exist:
+            if not (os.path.exists(outdir_path)):
+                msg = '`outdir_path` ({0}) was not found!'.format(
+                    outdir_path)
+                raise FileNotFoundError(msg)
+
+        return outdir_path
+
+    def analysis_out_dir(self, check_exist=True, ext='p'):
+        """
+        Path to the output file of the analysis process.
+
+        Parameters:
+        ------------
+        check_exist : `bool`, optional
+            If `True`, it checks for whether or not the file exists.
+            This variable is set to `False` by default.
+
+        ext : {'p', 'csv'} `str`
+            Extension used for the output file.
+
+        Returns
+        ------------
+        outfile_path : `str`
+            Path to the output file of the analysis process.
+        """
+        # Check input parameters
+        # `check_exist`
+        if not (isinstance(check_exist, bool)):
+            msg = '`check_exist` ({0}) must be of `boolean` type!'.format(
+                type(check_exist))
+            raise TypeError(msg)
+        # Path to the output file
+        outfile_path = os.path.join(self.analysis_out_dir(),
+                                    '{0}.{1}'.format(
+                                        self.analysis_file_pre_str(),
+                                        ext))
+        # Checking if file exists
+        if check_exist:
+            if not (os.path.exists(outfile_path)):
+                msg = '`outfile_path` ({0}) was not found!'.format(
+                    outfile_path)
+                raise FileNotFoundError(msg)
+
+        return outfile_path
+
+
+
 
 
 
