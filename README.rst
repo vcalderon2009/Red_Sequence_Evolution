@@ -2,7 +2,7 @@
 
 .. _main_title:
 ************************************************************************
-Red_Sequence_Evolution
+Red Sequence Evolution
 ************************************************************************
 
 Demonstration of Red Sequence Evolution for Galaxy Clusters in Color-Magnitude diagrams
