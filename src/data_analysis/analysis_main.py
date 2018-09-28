@@ -54,6 +54,13 @@ from argparse import HelpFormatter
 from operator import attrgetter
 from tqdm import tqdm
 
+# Astropy-related
+import astropy.cosmology   as astrocosmo
+import astropy.constants   as ac
+import astropy.units       as u
+import astropy.table       as astro_table
+import astropy.coordinates as astrocoord
+
 ## Functions
 class SortingHelpFormatter(HelpFormatter):
     def add_arguments(self, actions):
@@ -167,7 +174,7 @@ def get_parser():
                         dest='cosmo_choice',
                         help='Choice of Cosmology',
                         type=str,
-                        choices=['WMAP7'],
+                        choices=['WMAP5','WMAP7','WMAP9','Planck15','custom'],
                         default='WMAP7')
     ## Redshift bin size
     parser.add_argument('-z_binsize',
@@ -308,6 +315,62 @@ def directory_skeleton(param_dict, proj_dict):
     
     return proj_dict
 
+## ------------------------- Tools and Functions -----------------------------#
+
+def cosmo_create(cosmo_choice='WMAP7', H0=100., Om0=0.25, Ob0=0.04,
+    Tcmb0=2.7255):
+    """
+    Creates instance of the cosmology used throughout the project.
+
+    Parameters
+    ----------
+    cosmo_choice : {'WMAP7', 'WMAP9', 'Planck', 'custom'} `str`
+        The choice of cosmology for the project. This variable is set to
+        'WMPA7' by default.
+
+        Options:
+            - WMAP5: Cosmology from WMAP-5 cosmology
+            - WMAP7: Cosmology from WMAP-7 cosmology
+            - WMAP9: Cosmology from WMAP-9 cosmology
+            - Planck15: Cosmology from Plack-2015
+            - custom: Custom cosmology. The user sets the default parameters.
+    
+    h: float, optional (default = 1.0)
+        value for small cosmological 'h'.
+
+    Returns
+    ----------                  
+    cosmo_model : astropy cosmology object
+        cosmology used throughout the project
+
+    Notes
+    ----------
+    For more information regarding the choice of cosmology, the author is
+    advised to read the docs: `http://docs.astropy.org/en/stable/cosmology/`
+    """
+    ## Choosing cosmology
+    if (cosmo_choice == 'WMAP5'):
+        cosmo_model = astrocosmo.WMAP5.clone(H0=H0)
+    elif (cosmo_choice == 'WMAP7'):
+        cosmo_model = astrocosmo.WMAP7.clone(H0=H0)
+    elif (cosmo_choice == 'WMPA9'):
+        cosmo_model = astrocosmo.WMAP9.clone(H0=H0)
+    elif (cosmo_choice == 'Planck15'):
+        cosmo_model = astrocosmo.Planck15.clone(H0=H0)
+    elif (cosmo_choice == 'custom'):
+        cosmo_model = astrocosmo.FlatLambdaCDM(H0=H0, Om0=Om0, Ob0=Ob0, 
+            Tcmb0=Tcmb0)
+    ##
+    ## Cosmological parameters
+    cosmo_params         = {}
+    cosmo_params['H0'  ] = cosmo_model.H0.value
+    cosmo_params['Om0' ] = cosmo_model.Om0
+    cosmo_params['Ob0' ] = cosmo_model.Ob0
+    cosmo_params['Ode0'] = cosmo_model.Ode0
+    cosmo_params['Ok0' ] = cosmo_model.Ok0
+
+    return cosmo_model, cosmo_params
+
 ## ---------------------------- Main Analysis --------------------------------#
 
 ## Slicing clusters
@@ -401,6 +464,13 @@ def main(args):
     ## Creating Folder Structure
     proj_dict = param_dict['rs_args'].proj_dict
     proj_dict = directory_skeleton(param_dict, proj_dict)
+    ##
+    ## Choice of cosmology
+    ## Choosing cosmological model
+    (   cosmo_model ,
+        cosmo_params) = cosmo_create(cosmo_choice=param_dict['cosmo_choice'])
+    param_dict['cosmo_model' ] = cosmo_model
+    param_dict['cosmo_params'] = cosmo_params
     ##
     ## Printing out project variables
     print('\n'+50*'='+'\n')
