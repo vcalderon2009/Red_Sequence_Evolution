@@ -88,6 +88,12 @@ clean-test:
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
+## Removes the downloaded data, i.e. FITS, CSV, txt files
+clean-data:
+	find $(DATA_DIR) -name '*.fits' -exec rm -f {} +
+	find $(DATA_DIR) -name '*.csv' -exec rm -f {} +
+	find $(DATA_DIR) -name '*.txt' -exec rm -f {} +
+
 ## Lint using flake8
 lint:
 	flake8 --exclude=lib/,bin/,docs/conf.py .
