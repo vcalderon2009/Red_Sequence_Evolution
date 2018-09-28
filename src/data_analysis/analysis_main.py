@@ -28,7 +28,7 @@ from cosmo_utils.utils import stats_funcs     as cstats
 from cosmo_utils.utils import geometry        as cgeom
 from cosmo_utils.mock_catalogues import catls_utils as cmcu
 
-import numpy as num
+import numpy as np
 import math
 import os
 import sys
@@ -311,7 +311,11 @@ def directory_skeleton(param_dict, proj_dict):
 ## ---------------------------- Main Analysis --------------------------------#
 
 ## Slicing clusters
-# def slice_clusters(param_dict, proj_dict)
+def slice_clusters(param_dict, proj_dict):
+    """
+    Returns all clusters from the DataFrame of clusters between
+    a range of specified redshift limits.
+    """
 
 
 def analysis_main(param_dict, proj_dict):
@@ -335,8 +339,16 @@ def analysis_main(param_dict, proj_dict):
     master_pd = param_dict['rs_args'].extract_filtered_data(catl_kind='master')
     # `Random` catalogue
     rand_pd = param_dict['rs_args'].extract_input_catl_data(catl_kind='random')
-    # `RedMapper` catalogue
+    # `RedMapper`/Cluster catalogue
     rm_pd = param_dict['rs_args'].extract_input_catl_data(catl_kind='redmapper')
+    ##
+    ## Range of redshifts to use
+    z_arr = np.arange(  param_dict['z_min'],
+                        param_dict['z_max'],
+                        param_dict['z_binsize'])
+    # Tuples of redshift bins
+    z_bins = np.array([[z_arr[kk], z_arr[kk+1]] for kk in range(len(z_arr)-1)])
+
 
 
 def main(args):
