@@ -118,15 +118,17 @@ def get_parser():
                         dest='mband_1',
                         help='First apparent magnitude band to analyze.',
                         type=str,
-                        choices=['g','r','i','z','Y'],
-                        default='g')
+                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
+                        'MAG_AUTO_Z','MAG_AUTO_Y'],
+                        default='MAG_AUTO_G')
     ## 2nd Magnitude band
     parser.add_argument('-mband_2',
                         dest='mband_2',
                         help='Second apparent magnitude band to analyze.',
                         type=str,
-                        choices=['g','r','i','z','Y'],
-                        default='z')
+                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
+                        'MAG_AUTO_Z','MAG_AUTO_Y'],
+                        default='MAG_AUTO_Z')
     ## Maximum difference between `mband_1` and `mband_2`
     parser.add_argument('-mag_diff_tresh',
                         dest='mag_diff_tresh',
@@ -152,6 +154,51 @@ def get_parser():
                         """,
                         type=float,
                         default=17)
+    ## Aperture radius in 'arcseconds'
+    parser.add_argument('-radius_size',
+                        dest='radius_size',
+                        help='Size of radius on the Sky. In units of `arcsec`',
+                        type=_check_pos_val,
+                        default=5.)
+    ## Cosmology Choice
+    parser.add_argument('-cosmo',
+                        dest='cosmo_choice',
+                        help='Choice of Cosmology',
+                        type=str,
+                        choices=['WMAP7'],
+                        default='WMAP7')
+    ## Redshift bin size
+    parser.add_argument('-z_binsize',
+                        dest='z_binsize',
+                        help='Size of bin for redsift `z`',
+                        type=_check_pos_val,
+                        default=0.0125)
+    ## Minimum redshift value
+    parser.add_argument('-z_min',
+                        dest='z_min',
+                        help='Minimim redshift to analyze.',
+                        type=_check_pos_val,
+                        default=0.4)
+    ## Choice of the input galaxy cluster location catalogue
+    parser.add_argument('-input_catl_loc',
+                        dest='name_variable',
+                        help='Description',
+                        type=str,
+                        choices=['A'],
+                        default='A')
+    ## Minimum redshift value
+    parser.add_argument('-z_max',
+                        dest='z_max',
+                        help='Maximum redshift to analyze.',
+                        type=_check_pos_val,
+                        default=1.0)
+    ## Choice of the input galaxy cluster location
+    parser.add_argument('-input_catl_loc',
+                        dest='input_catl_loc',
+                        help='Choice of the input galaxy cluster location.',
+                        type=str,
+                        choices=['RedMapper', 'SDSS'],
+                        default='RedMapper')
     ## Option for removing file
     parser.add_argument('-remove',
                         dest='remove_files',
@@ -193,8 +240,26 @@ def param_vals_test(param_dict):
         This function raises a `ValueError` error if one or more of the 
         required criteria are not met
     """
-    ##
-    ## This is where the tests for `param_dict` input parameters go.
+    Prog_msg = param_dict['Prog_msg']
+    ## Making sure that `mag_diff_tresh` larger than some value
+    if not (param_dict['mag_diff_tresh'] <= 4.):
+        msg = '{0} `mag_diff_tresh` ({1}) must be smaller than 4! '
+        msg += 'Exiting!'
+        msg = msg.format(Prog_msg, param_dict['mag_diff_tresh'])
+        raise ValueError(msg)
+    ## Checking that `mag_min` is smaller than `mag_max`
+    if not (param_dict['mag_min'] > param_dict['mag_max']):
+        msg = '{0} `mag_min` ({1}) must be larger than `mag_max` ({2})! '
+        msg += 'Exiting!'
+        msg = msg.format(Prog_msg, param_dict['mag_min'],
+            param_dict['mag_max'])
+        raise ValueError(msg)
+    ## Checking that `z_min` is larger than 0.4
+    if not (param_dict['z_min'] >= 0.4):
+        msg = '{0} `z_min` ({1}) must be larger than `0.4`! '
+        msg += 'Exiting!'
+        msg = msg.format(Prog_msg, param_dict['z_min'])
+        raise ValueError(msg)
 
 def is_tool(name):
     """Check whether `name` is on PATH and marked as executable."""
@@ -240,26 +305,31 @@ def directory_skeleton(param_dict, proj_dict):
     proj_dict : `dict`
         Dictionary with current and new paths to project directories
     """
-    ## In here, you define the directories of your project
+    
+
 
     return proj_dict
 
 def main(args):
     """
-
+    Function analyze the `Red Sequence` using by cross-matching catalogues
+    from `RedMapper` (http://risa.stanford.edu/redmapper/) and NOAO Data-Lab
+    catalogue.
     """
     ## Reading all elements and converting to python dictionary
     param_dict = vars(args)
     ## Checking for correct input
     param_vals_test(param_dict)
+    # Creating instance of `ReadML` with the input parameters
+    param_dict['rs_args'] = RedSeq(**param_dict)
     ## Adding extra variables
     param_dict = add_to_dict(param_dict)
     ## Program message
     Prog_msg = param_dict['Prog_msg']
     ##
     ## Creating Folder Structure
-    # proj_dict  = directory_skeleton(param_dict, cwpaths.cookiecutter_paths(__file__))
-    proj_dict  = directory_skeleton(param_dict, cwpaths.cookiecutter_paths('./'))
+    proj_dict = param_dict['rs_args'].proj_dict
+    proj_dict = directory_skeleton(param_dict, proj_dict)
     ##
     ## Printing out project variables
     print('\n'+50*'='+'\n')
@@ -267,6 +337,8 @@ def main(args):
         if key !='Prog_msg':
             print('{0} `{1}`: {2}'.format(Prog_msg, key, key_val))
     print('\n'+50*'='+'\n')
+    ## -- Main Analysis -- ##
+    
 
 
 # Main function

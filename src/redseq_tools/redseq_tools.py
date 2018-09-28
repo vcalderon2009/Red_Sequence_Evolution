@@ -548,7 +548,7 @@ class RedSeq(object):
 
         return outdir_path
 
-    def analysis_out_dir(self, check_exist=True, ext='p'):
+    def analysis_outfile_path(self, check_exist=True, ext='p'):
         """
         Path to the output file of the analysis process.
 

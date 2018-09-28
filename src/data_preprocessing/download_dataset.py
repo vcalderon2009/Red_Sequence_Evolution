@@ -339,8 +339,6 @@ def download_directory(param_dict, proj_dict):
     if param_dict['verbose']:
         print('{0} Download complete!'.format(param_dict['Prog_msg']))
 
-### ----| Data Cleaning |--- ###
-
 ### ----| Main Function |--- ###
 
 def main(args):
