@@ -119,6 +119,14 @@ def get_parser():
                         choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
                         'MAG_AUTO_Z','MAG_AUTO_Y'],
                         default='MAG_AUTO_Z')
+    ## 3rd Magnitude band
+    parser.add_argument('-mband_3',
+                        dest='mband_3',
+                        help='Third apparent magnitude band to analyze.',
+                        type=str,
+                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
+                        'MAG_AUTO_Z','MAG_AUTO_Y'],
+                        default='MAG_AUTO_I')
     ## Maximum difference between `mband_1` and `mband_2`
     parser.add_argument('-mag_diff_tresh',
                         dest='mag_diff_tresh',
@@ -210,6 +218,13 @@ def param_vals_test(param_dict):
         msg += 'Exiting!'
         msg = msg.format(Prog_msg, param_dict['mag_min'],
             param_dict['param_max'])
+        raise ValueError(msg)
+    ## Check that no magnitude is the same
+    if (np.unique([param_dict['mband_1'], param_dict['mband_2'], param_dict['mband_3']]).size != 3):
+        msg = '{0} All three magnitude bands must be different: `{1}`, `{2}`, '
+        msg += '`{4}`! Exiting!'
+        msg = msg.format(   param_dict['Prog_msg'], param_dict['mband_1'],
+                            param_dict['mband_2'], param_dict['mband_3'])
         raise ValueError(msg)
 
 def add_to_dict(param_dict):

@@ -138,6 +138,14 @@ def get_parser():
                         choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
                         'MAG_AUTO_Z','MAG_AUTO_Y'],
                         default='MAG_AUTO_Z')
+    ## 3rd Magnitude band
+    parser.add_argument('-mband_3',
+                        dest='mband_3',
+                        help='Third apparent magnitude band to analyze.',
+                        type=str,
+                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
+                        'MAG_AUTO_Z','MAG_AUTO_Y'],
+                        default='MAG_AUTO_I')
     ## Maximum difference between `mband_1` and `mband_2`
     parser.add_argument('-mag_diff_tresh',
                         dest='mag_diff_tresh',
@@ -201,6 +209,12 @@ def get_parser():
                         type=str,
                         choices=['RedMapper', 'SDSS'],
                         default='RedMapper')
+    ## Choice of binning
+    parser.add_argument('-hist_nbins',
+                        dest='hist_nbins',
+                        help='Number of bins for x- and y-axis.',
+                        type=_check_pos_val,
+                        default=200)
     ## Option for removing file
     parser.add_argument('-remove',
                         dest='remove_files',
@@ -262,6 +276,13 @@ def param_vals_test(param_dict):
         msg += 'Exiting!'
         msg = msg.format(Prog_msg, param_dict['z_min'])
         raise ValueError(msg)
+    ## Check that no magnitude is the same
+    if (np.unique([param_dict['mband_1'], param_dict['mband_2'], param_dict['mband_3']]).size != 3):
+        msg = '{0} All three magnitude bands must be different: `{1}`, `{2}`, '
+        msg += '`{4}`! Exiting!'
+        msg = msg.format(   param_dict['Prog_msg'], param_dict['mband_1'],
+                            param_dict['mband_2'], param_dict['mband_3'])
+        raise ValueError(msg)
 
 def is_tool(name):
     """Check whether `name` is on PATH and marked as executable."""
@@ -285,8 +306,39 @@ def add_to_dict(param_dict):
     param_dict : `dict`
         dictionary with old and new values added
     """
-    # This is where you define `extra` parameters for adding to `param_dict`.
-
+    ##
+    ## Bin array along x- (magnitude )and y-axis (color)
+    x_bins = np.linspace(   param_dict['mag_max'],
+                            param_dict['mag_min'],
+                            param_dict['hist_nbins'])
+    y_bins = np.linspace(   -param_dict['mag_diff_tresh'],
+                            param_dict['mag_diff_tresh'],
+                            param_dict['hist_nbins'])
+    ##
+    ## Range of redshifts to use
+    z_arr = np.arange(  param_dict['z_min'],
+                        param_dict['z_max'],
+                        param_dict['z_binsize'])
+    # Redshift bins
+    z_bins = np.array([[z_arr[kk], z_arr[kk+1]] for kk in range(len(z_arr)-1)])
+    # Number of redshift bins
+    n_z_bins = len(z_bins)
+    # Centers fo the redshift bins
+    z_centers = np.array([np.mean(xx) for xx in z_bins])
+    # List of apparent magnitudes
+    mbands_arr = [  param_dict['mband_1'],
+                    param_dict['mband_2'],
+                    param_dict['mband_3']]
+    #
+    # Saving to main dictionary
+    param_dict['x_bins'    ] = x_bins
+    param_dict['y_bins'    ] = y_bins
+    param_dict['z_arr'     ] = z_arr
+    param_dict['z_bins'    ] = z_bins
+    param_dict['n_z_bins'  ] = n_z_bins
+    param_dict['z_centers' ] = z_centers
+    param_dict['mbands_arr'] = mbands_arr
+    
     return param_dict
 
 def directory_skeleton(param_dict, proj_dict):
@@ -317,6 +369,7 @@ def directory_skeleton(param_dict, proj_dict):
 
 ## ------------------------- Tools and Functions -----------------------------#
 
+# Choice of cosmological model
 def cosmo_create(cosmo_choice='WMAP7', H0=100., Om0=0.25, Ob0=0.04,
     Tcmb0=2.7255):
     """
@@ -340,7 +393,7 @@ def cosmo_create(cosmo_choice='WMAP7', H0=100., Om0=0.25, Ob0=0.04,
 
     Returns
     ----------                  
-    cosmo_model : astropy cosmology object
+    cosmo_model : `astropy.cosmology.core.FlatLambdaCDM`
         cosmology used throughout the project
 
     Notes
@@ -370,6 +423,165 @@ def cosmo_create(cosmo_choice='WMAP7', H0=100., Om0=0.25, Ob0=0.04,
     cosmo_params['Ok0' ] = cosmo_model.Ok0
 
     return cosmo_model, cosmo_params
+
+# Cosmological radius
+def radius_cosmo(z, cosmo_model, units='deg_mpc'):
+    """
+    Returns the 'degrees per Mpc' value as a function of redshift `z`.
+
+    Parameters
+    -----------
+    z : `float`
+        Input redshift.
+
+    cosmo_model : `astropy.cosmology.core.FlatLambdaCDM`
+        Cosmological model used in this analysis.
+
+    units : {'deg_mpc', 'arcmin_kpc'}, `str`
+        Choice of units for the radius. This variable is set to `deg_mpc`
+        by default.
+
+        Options:
+            - 'deg_mpc': Degrees per Megaparsec
+            - 'arcmin_kpc': Arcminutes per kiloparsec.
+
+    Returns:
+    ------------ 
+    deg_per_mpc : `float`
+        Float value of degrees per megaparsec.
+
+    Notes
+    ----------
+    `deg_per_mpc` is dependent on the choice of cosmology `cosmo_model`.
+    """
+    ## The distance in proper kpc corresponding to an arcmin at each `z`
+    kpc_arcmin = cosmo_model.kpc_proper_per_arcmin(z)
+    ## Transforming data
+    if (units == 'arcmin_kpc'):
+        angle_dist_value = (1. / kpc_arcmin).to(1.*u.arcmin / u.kpc).value
+    elif (units == 'deg_mpc'):
+        angle_dist_value = (1. / kpc_arcmin).to(1.*u.deg / u.Mpc).value
+
+    return angle_dist_value
+
+## Counts calculation for cluster regions
+def cluster_counts(cluster_idx_arr, rm_pd, master_pd, z_bins, param_dict):
+    """
+    Calculates the counts of a 2D-histogram for cluster regions based on
+    the cluster catalogue `cluster_ii`
+
+    Parameters
+    -------------
+    cluster_idx_arr : `numpy.ndarray`
+        Set of indices for the different redshift bins `z_bins`
+
+    rm_pd : `pd.DataFrame`
+        Main DataFrame containing information about the cluster centers.
+
+    master_pd : `pd.DataFrame`
+        Master DataFrame from input photometry survey, containing
+        [RA, DEC, MAG_AUTO_G, MAG_AUTO_Z] information. This is the 
+        `Master Data`, i.e. the largest photometry table, by default.
+
+    z_bins : `numpy.ndarray`, shape (N, 2)
+        2-D array of bin edges for redshifts, with a total of `N` number of
+        bins.
+
+    param_dict : `dict`
+        Dictionary with `project` variables
+
+    Returns
+    -------------
+    counts_z_arr : `numpy.ndarray`, shape (N,)
+        Array containing total counts for the 2D-histograms at each redshisft
+        bin in `z_bins`.
+    """
+    # Constants
+    cols_used = ['RA', 'DEC']
+    x_bins    = param_dict['x_bins']
+    y_bins    = param_dict['y_bins']
+    # Initializing `counts_z_arr` array
+    counts_z_arr = [[] for x in range(param_dict['n_z_bins'])]
+    # Radius at each redshift bin
+    r_z_arr = np.array([radius_cosmo(xx, param_dict['cosmo_model']) \
+                    for xx in param_dict['z_centers']])
+    # Calculating counts at each redshift bin
+    for kk in range(param_dict['n_z_bins']):
+        # Indices for given redshift bin
+        idx_kk       = cluster_idx_arr[kk]
+        n_cluster_kk = len(idx_kk)
+        # Checking if there's an empty bin
+        if (n_cluster_kk > 0):
+            # Set of RA and DEC values for that given redshift bin
+            cluster_kk = rm_pd.loc[idx_kk, cols_used].reset_index(drop=True)
+            # Extracting magnitudes for given cluster centers and member
+            # galaxies
+            mags_zz_arr = get_magnitudes(cluster_kk, r_z_arr[kk], master_pd,
+                            param_dict)
+            # Extracting magnitudes
+            mband_1_kk, mband_2_kk, mband_3_kk = mags_zz_arr
+            # Computing counts
+            counts_kk, _, _ = np.histogram2d(   mband_3_kk,
+                                                mband_1_kk - mband_2_kk,
+                                                bins=[x_bins, y_bins])
+            # Normalizing total counts
+            counts_kk /= (np.pi * len(cluster_kk))
+            # Saving counts
+            counts_z_arr[kk] = counts_kk
+        else:
+            counts_z_arr[kk] = 0
+
+    return counts_z_arr
+
+
+## Extracting magnitudes for the various galaxy clusters.
+def get_magnitudes(cluster_kk, r_kk_cen, master_pd, param_dict):
+    """
+    Extracts the magnitudes (corresponding to a 2D histogram) from
+    background regions based on the cluters catalogue `cluster_kk`
+
+    Parameters
+    ------------
+    cluster_kk : `pd.DataFrame`
+        DataFrame containing coordinates of cluster centers.
+
+    r_kk_cen : `float`
+        Input redshift. The center of the redshift bin being analyzed.
+
+    master_pd : `pd.DataFrame`
+        DataFrame corresponding to the `master` data catalogue from input
+        `photometric` survey. It contains the coordinates ('RA', 'DEC') and
+        information about the three apparent magnitudes, `mband_1`,
+        `mband_2`, and `mband_3`.
+
+    Returns
+    ---------
+    mags_zz_arr : list
+        List containing the resulting apparent magnitudes of 
+    """
+    # Constants
+    mbands_arr = param_dict['mbands_arr']
+    # Temporary
+    mbands_arr = [param_dict['mband_1'], param_dict['mband_2']]
+    # Square of the radius `r_kk_cen`
+    r_k_sq     = r_kk_cen**2
+    # Initializing array
+    mags_zz_arr = [[] for kk in range(len(cluster_kk))]
+    # Looping over each coordinate
+    for zz, (ra_zz, dec_zz) in enumerate(cluster_kk.values):
+        # 1st magnitude
+        mags_zz_diff  = (master_pd['RA' ] - ra_zz)**2
+        mags_zz_diff += (master_pd['DEC'] - dec_zz)**2
+        mags_zz_mask  = mags_zz_diff < r_k_sq
+        # Only selecting those that match the criteria
+        mags_zz_match = master_pd.loc[mags_zz_mask, mbands_arr]
+        # Saving to array
+        mags_zz_arr[zz] = mags_zz_match.values
+
+    return mags_zz_arr
+
+
+
 
 ## ---------------------------- Main Analysis --------------------------------#
 
@@ -429,16 +641,13 @@ def analysis_main(param_dict, proj_dict):
     rand_pd = param_dict['rs_args'].extract_input_catl_data(catl_kind='random')
     # `RedMapper`/Cluster catalogue
     rm_pd = param_dict['rs_args'].extract_input_catl_data(catl_kind='redmapper')
-    ##
-    ## Range of redshifts to use
-    z_arr = np.arange(  param_dict['z_min'],
-                        param_dict['z_max'],
-                        param_dict['z_binsize'])
-    # Tuples of redshift bins
-    z_bins = np.array([[z_arr[kk], z_arr[kk+1]] for kk in range(len(z_arr)-1)])
     #
     # Cluster indices for `rm_pd`
-    cluster_idx_arr = slice_clusters_idx(rm_pd, z_bins)
+    cluster_idx_arr = slice_clusters_idx(rm_pd, param_dict['z_bins'])
+    # Cluster counts
+    counts_z_arr = cluster_counts(cluster_idx_arr, rm_pd, master_pd, z_bins,
+                        param_dict)
+    # Background
 
 
 
@@ -473,12 +682,14 @@ def main(args):
     param_dict['cosmo_params'] = cosmo_params
     ##
     ## Printing out project variables
+    key_skip = ['Prog_msg', 'z_centers', 'z_bins', 'z_arr','y_bins','x_bins']
     print('\n'+50*'='+'\n')
     for key, key_val in sorted(param_dict.items()):
-        if key !='Prog_msg':
+        if not (key in key_skip):
             print('{0} `{1}`: {2}'.format(Prog_msg, key, key_val))
     print('\n'+50*'='+'\n')
     ## -- Main Analysis -- ##
+    analysis_main(param_dict, proj_dict)
 
 # Main function
 if __name__=='__main__':

@@ -48,6 +48,7 @@ class RedSeq(object):
         # Downloading dataset
         self.mband_1        = kwargs.get('mband_1', 'MAG_AUTO_G')
         self.mband_2        = kwargs.get('mband_2', 'MAG_AUTO_Z')
+        self.mband_3        = kwargs.get('mband_2', 'MAG_AUTO_I')
         self.mag_diff_tresh = kwargs.get('mag_diff_tresh', 4.)
         self.mag_min        = kwargs.get('mag_min', 24.)
         self.mag_max        = kwargs.get('mag_max', 17.)
@@ -265,8 +266,11 @@ class RedSeq(object):
             catl_fits_data  = None
             # Selecting columns if necessary
             if ra_dec_only:
-                # Columns to choose
-                catl_table_data = catl_table_data['RA','DEC']
+                if (catl_kind == 'random'):
+                    # Columns to choose
+                    catl_table_data = catl_table_data['RA','DEC']
+                elif (catl_kind == 'redmapper'):
+                    catl_table_data = catl_table_data['RA','DEC', 'Z_LAMBDA']
             # Converting to DataFrame
             catl_pd = catl_table_data.to_pandas()
 
