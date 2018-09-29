@@ -277,7 +277,8 @@ def param_vals_test(param_dict):
         msg = msg.format(Prog_msg, param_dict['z_min'])
         raise ValueError(msg)
     ## Check that no magnitude is the same
-    if (np.unique([param_dict['mband_1'], param_dict['mband_2'], param_dict['mband_3']]).size != 3):
+    if (np.unique([param_dict['mband_1'], param_dict['mband_2'], \
+        param_dict['mband_3']]).size != 3):
         msg = '{0} All three magnitude bands must be different: `{1}`, `{2}`, '
         msg += '`{4}`! Exiting!'
         msg = msg.format(   param_dict['Prog_msg'], param_dict['mband_1'],
@@ -427,7 +428,8 @@ def cosmo_create(cosmo_choice='WMAP7', H0=100., Om0=0.25, Ob0=0.04,
 # Cosmological radius
 def radius_cosmo(z, cosmo_model, units='deg_mpc'):
     """
-    Returns the 'degrees per Mpc' value as a function of redshift `z`.
+    Returns the 'degrees per Mpc' or 'arcmin per kpc' value as a function of 
+    redshift `z`.
 
     Parameters
     -----------
@@ -447,12 +449,13 @@ def radius_cosmo(z, cosmo_model, units='deg_mpc'):
 
     Returns:
     ------------ 
-    deg_per_mpc : `float`
-        Float value of degrees per megaparsec.
+    angle_dist_value : `float`
+        Float value of degrees per megaparsec or arcminutes per kiloparsec.
 
     Notes
     ----------
-    `deg_per_mpc` is dependent on the choice of cosmology `cosmo_model`.
+    Returning angular distance value is dependent on redshift and the choice 
+    of cosmology `cosmo_model`.
     """
     ## The distance in proper kpc corresponding to an arcmin at each `z`
     kpc_arcmin = cosmo_model.kpc_proper_per_arcmin(z)
