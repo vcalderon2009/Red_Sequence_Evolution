@@ -645,7 +645,7 @@ def analysis_main(param_dict, proj_dict):
     # `RedMapper`/Cluster catalogue
     rm_pd = param_dict['rs_args'].extract_input_catl_data(catl_kind='redmapper')
     #
-    # Cluster indices for `rm_pd`
+    # Cluster indices for `rm_pd` (in redshift slice)
     cluster_idx_arr = slice_clusters_idx(rm_pd, param_dict['z_bins'])
     # Cluster counts
     counts_z_arr = cluster_counts(cluster_idx_arr, rm_pd, master_pd, z_bins,
