@@ -538,7 +538,8 @@ def cluster_counts(cluster_idx_arr, rm_pd, master_pd, z_bins, param_dict):
 
 
 ## Extracting magnitudes for the various galaxy clusters.
-def get_magnitudes(cluster_kk, r_kk_cen, master_pd, param_dict):
+def get_magnitudes(cluster_kk, r_kk_cen, master_pd, param_dict,
+    dist_radius=3):
     """
     Extracts the magnitudes (corresponding to a 2D histogram) from
     background regions based on the cluters catalogue `cluster_kk`
@@ -557,6 +558,11 @@ def get_magnitudes(cluster_kk, r_kk_cen, master_pd, param_dict):
         information about the three apparent magnitudes, `mband_1`,
         `mband_2`, and `mband_3`.
 
+    dist_radius : `int`, optional
+        Number of `unit_distance` away from the center. This value
+        corresponds to the total number of ``kpc`` or ``Mpc`` away
+        from the center. This variable is set to ``3`` by default.
+    
     Returns
     ---------
     mags_zz_arr : list
@@ -567,11 +573,12 @@ def get_magnitudes(cluster_kk, r_kk_cen, master_pd, param_dict):
     # Temporary
     mbands_arr = [param_dict['mband_1'], param_dict['mband_2']]
     # Square of the radius `r_kk_cen`
-    r_k_sq     = r_kk_cen**2
+    r_k_sq     = (dist_mpc * r_kk_cen)**2
     # Initializing array
     mags_zz_arr = [[] for kk in range(len(cluster_kk))]
     # Looping over each coordinate
-    for zz, (ra_zz, dec_zz) in enumerate(cluster_kk.values):
+    tqdm_msg = 'Computing magnitudes: '
+    for zz, (ra_zz, dec_zz) in enumerate(tqdm(cluster_kk.values, desc=tqdm_msg)):
         # 1st magnitude
         mags_zz_diff  = (master_pd['RA' ] - ra_zz)**2
         mags_zz_diff += (master_pd['DEC'] - dec_zz)**2
@@ -582,9 +589,6 @@ def get_magnitudes(cluster_kk, r_kk_cen, master_pd, param_dict):
         mags_zz_arr[zz] = mags_zz_match.values
 
     return mags_zz_arr
-
-
-
 
 ## ---------------------------- Main Analysis --------------------------------#
 
