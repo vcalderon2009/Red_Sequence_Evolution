@@ -46,12 +46,13 @@ class RedSeq(object):
         super().__init__()
         ## Assigning variables
         # Downloading dataset
-        self.mband_1        = kwargs.get('mband_1', 'MAG_AUTO_G')
-        self.mband_2        = kwargs.get('mband_2', 'MAG_AUTO_Z')
-        self.mband_3        = kwargs.get('mband_2', 'MAG_AUTO_I')
+        self.mband_1        = kwargs.get('mband_1', 'mag_auto_g')
+        self.mband_2        = kwargs.get('mband_2', 'mag_auto_z')
+        self.mband_3        = kwargs.get('mband_3', 'mag_auto_i')
         self.mag_diff_tresh = kwargs.get('mag_diff_tresh', 4.)
         self.mag_min        = kwargs.get('mag_min', 24.)
         self.mag_max        = kwargs.get('mag_max', 17.)
+        self.master_limit   = kwargs.get('master_limit', 1000000)
         # Analysis
         self.radius         = kwargs.get('radius', 5./3600.)
         self.radius_unit    = kwargs.get('radius_unit', 'deg')
@@ -91,10 +92,11 @@ class RedSeq(object):
         catl_pre_arr = [catl_kind,
                         self.mband_1,
                         self.mband_2,
+                        self.mband_3,
                         self.mag_diff_tresh,
                         self.mag_min,
                         self.mag_max]
-        catl_pre_str = 'catl_{0}_{1}_{2}_{3}_{4}_{5}'
+        catl_pre_str = 'catl_{0}_{1}_{2}_{3}_{4}_{5}_{6}'
         catl_pre_str = catl_pre_str.format(*catl_pre_arr)
 
         return catl_pre_str
@@ -159,8 +161,7 @@ class RedSeq(object):
 
         return input_catl_dir
 
-    def input_catl_file(self, catl_kind='master', check_exist=True,
-        ext='csv'):
+    def input_catl_file(self, catl_kind='master', check_exist=True):
         """
         Path to the file being analyzed.
 
@@ -176,9 +177,6 @@ class RedSeq(object):
         check_exist : `bool`, optional
             If `True`, it checks for whether or not the file exists.
             This variable is set to `False` by default.
-
-        ext : {'csv'} `str`
-            Extension used for the catalogue file.
 
         Returns
         ------------
@@ -200,7 +198,7 @@ class RedSeq(object):
         ##
         ## Modifying extension
         if (catl_kind == 'master'):
-            ext = 'csv'
+            ext = 'hdf5'
         else:
             ext = 'fits'
         ##
@@ -257,7 +255,7 @@ class RedSeq(object):
         ## Extracting data
         if (catl_kind == 'master'):
             # Reading in as CSV file and converting to pandas
-            catl_pd = pd.read_csv(catl_file_path)
+            catl_pd = cfreaders.read_hdf5_file_to_pandas_DF(catl_file_path)
         else:
             ## Reading in FITS file and converting to pandas
             catl_fits_data = fits.getdata(catl_file_path)
@@ -489,6 +487,7 @@ class RedSeq(object):
         # Prefix string
         catl_pre_arr = [self.mband_1,
                         self.mband_2,
+                        self.mband_3,
                         self.mag_diff_tresh,
                         self.mag_min,
                         self.mag_max,
@@ -499,9 +498,9 @@ class RedSeq(object):
                         self.zmin,
                         self.zmax,
                         self.input_loc]
-        catl_pre_str  = 'catl_analysis_{0}_{1}_magth_{2}_magmin_{3}_'
-        catl_pre_str += 'magmax_{4}_rad_{5}_runit_{6}_cosmo_{7}_'
-        catl_pre_str += 'zbin_{8}_zmin_{9}_zmax_{10}_loc_{11}'
+        catl_pre_str  = 'catl_analysis_{0}_{1}_{2}_magth_{3}_magmin_{4}_'
+        catl_pre_str += 'magmax_{5}_rad_{6}_runit_{7}_cosmo_{8}_'
+        catl_pre_str += 'zbin_{9}_zmin_{10}_zmax_{11}_loc_{12}'
         catl_pre_str = catl_pre_str.format(*catl_pre_arr)
 
         return catl_pre_str
@@ -589,31 +588,5 @@ class RedSeq(object):
                 raise FileNotFoundError(msg)
 
         return outfile_path
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

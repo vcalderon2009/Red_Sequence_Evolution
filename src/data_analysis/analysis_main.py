@@ -127,25 +127,25 @@ def get_parser():
                         dest='mband_1',
                         help='First apparent magnitude band to analyze.',
                         type=str,
-                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
-                        'MAG_AUTO_Z','MAG_AUTO_Y'],
-                        default='MAG_AUTO_G')
+                        choices=['mag_auto_g', 'mag_auto_r', 'mag_auto_i',
+                        'mag_auto_z', 'mag_auto_y'],
+                        default='mag_auto_g')
     ## 2nd Magnitude band
     parser.add_argument('-mband_2',
                         dest='mband_2',
                         help='Second apparent magnitude band to analyze.',
                         type=str,
-                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
-                        'MAG_AUTO_Z','MAG_AUTO_Y'],
-                        default='MAG_AUTO_Z')
+                        choices=['mag_auto_g', 'mag_auto_r', 'mag_auto_i',
+                        'mag_auto_z', 'mag_auto_y'],
+                        default='mag_auto_z')
     ## 3rd Magnitude band
     parser.add_argument('-mband_3',
                         dest='mband_3',
                         help='Third apparent magnitude band to analyze.',
                         type=str,
-                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
-                        'MAG_AUTO_Z','MAG_AUTO_Y'],
-                        default='MAG_AUTO_I')
+                        choices=['mag_auto_g', 'mag_auto_r', 'mag_auto_i',
+                        'mag_auto_z', 'mag_auto_y'],
+                        default='mag_auto_i')
     ## Maximum difference between `mband_1` and `mband_2`
     parser.add_argument('-mag_diff_tresh',
                         dest='mag_diff_tresh',
@@ -468,7 +468,7 @@ def radius_cosmo(z, cosmo_model, units='deg_mpc'):
     return angle_dist_value
 
 ## Counts calculation for cluster regions
-def cluster_counts(cluster_idx_arr, rm_pd, master_pd, z_bins, param_dict):
+def cluster_counts(cluster_idx_arr, rm_pd, master_pd, param_dict):
     """
     Calculates the counts of a 2D-histogram for cluster regions based on
     the cluster catalogue `cluster_ii`
@@ -485,10 +485,6 @@ def cluster_counts(cluster_idx_arr, rm_pd, master_pd, z_bins, param_dict):
         Master DataFrame from input photometry survey, containing
         [RA, DEC, MAG_AUTO_G, MAG_AUTO_Z] information. This is the 
         `Master Data`, i.e. the largest photometry table, by default.
-
-    z_bins : `numpy.ndarray`, shape (N, 2)
-        2-D array of bin edges for redshifts, with a total of `N` number of
-        bins.
 
     param_dict : `dict`
         Dictionary with `project` variables
@@ -539,7 +535,7 @@ def cluster_counts(cluster_idx_arr, rm_pd, master_pd, z_bins, param_dict):
 
 ## Extracting magnitudes for the various galaxy clusters.
 def get_magnitudes(cluster_kk, r_kk_cen, master_pd, param_dict,
-    dist_radius=3):
+    dist_radius=10):
     """
     Extracts the magnitudes (corresponding to a 2D histogram) from
     background regions based on the cluters catalogue `cluster_kk`
@@ -573,15 +569,15 @@ def get_magnitudes(cluster_kk, r_kk_cen, master_pd, param_dict,
     # Temporary
     mbands_arr = [param_dict['mband_1'], param_dict['mband_2']]
     # Square of the radius `r_kk_cen`
-    r_k_sq     = (dist_mpc * r_kk_cen)**2
+    r_k_sq     = (dist_radius * r_kk_cen)**2
     # Initializing array
     mags_zz_arr = [[] for kk in range(len(cluster_kk))]
     # Looping over each coordinate
     tqdm_msg = 'Computing magnitudes: '
     for zz, (ra_zz, dec_zz) in enumerate(tqdm(cluster_kk.values, desc=tqdm_msg)):
         # 1st magnitude
-        mags_zz_diff  = (master_pd['RA' ] - ra_zz)**2
-        mags_zz_diff += (master_pd['DEC'] - dec_zz)**2
+        mags_zz_diff  = (master_pd['ra' ] - ra_zz)**2
+        mags_zz_diff += (master_pd['dec'] - dec_zz)**2
         mags_zz_mask  = mags_zz_diff < r_k_sq
         # Only selecting those that match the criteria
         mags_zz_match = master_pd.loc[mags_zz_mask, mbands_arr]
@@ -652,7 +648,7 @@ def analysis_main(param_dict, proj_dict):
     # Cluster indices for `rm_pd` (in redshift slice)
     cluster_idx_arr = slice_clusters_idx(rm_pd, param_dict['z_bins'])
     # Cluster counts
-    counts_z_arr = cluster_counts(cluster_idx_arr, rm_pd, master_pd, z_bins,
+    counts_z_arr = cluster_counts(cluster_idx_arr, rm_pd, master_pd,
                         param_dict)
     # Background
 

@@ -17,11 +17,12 @@ analysis on the `Red Sequence` project.
 # Importing Modules
 import os
 import sys
-import numpy as num
+import numpy as np
 
-from cosmo_utils.utils import file_utils as cfutils
-from cosmo_utils.utils import work_paths as cwpaths
-from cosmo_utils.utils import web_utils  as cweb
+from cosmo_utils.utils import file_readers as cfreaders
+from cosmo_utils.utils import file_utils   as cfutils
+from cosmo_utils.utils import work_paths   as cwpaths
+from cosmo_utils.utils import web_utils    as cweb
 
 from src.redseq_tools import RedSeq
 
@@ -30,6 +31,9 @@ from argparse import ArgumentParser
 from argparse import HelpFormatter
 from operator import attrgetter
 import subprocess
+
+# Tap Service
+from tap import TAP_Service
 
 # NOAO Data Client
 
@@ -108,25 +112,25 @@ def get_parser():
                         dest='mband_1',
                         help='First apparent magnitude band to analyze.',
                         type=str,
-                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
-                        'MAG_AUTO_Z','MAG_AUTO_Y'],
-                        default='MAG_AUTO_G')
+                        choices=['mag_auto_g', 'mag_auto_r', 'mag_auto_i',
+                        'mag_auto_z', 'mag_auto_y'],
+                        default='mag_auto_g')
     ## 2nd Magnitude band
     parser.add_argument('-mband_2',
                         dest='mband_2',
                         help='Second apparent magnitude band to analyze.',
                         type=str,
-                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
-                        'MAG_AUTO_Z','MAG_AUTO_Y'],
-                        default='MAG_AUTO_Z')
+                        choices=['mag_auto_g', 'mag_auto_r', 'mag_auto_i',
+                        'mag_auto_z', 'mag_auto_y'],
+                        default='mag_auto_z')
     ## 3rd Magnitude band
     parser.add_argument('-mband_3',
                         dest='mband_3',
                         help='Third apparent magnitude band to analyze.',
                         type=str,
-                        choices=['MAG_AUTO_G','MAG_AUTO_R','MAG_AUTO_I',
-                        'MAG_AUTO_Z','MAG_AUTO_Y'],
-                        default='MAG_AUTO_I')
+                        choices=['mag_auto_g', 'mag_auto_r', 'mag_auto_i',
+                        'mag_auto_z', 'mag_auto_y'],
+                        default='mag_auto_i')
     ## Maximum difference between `mband_1` and `mband_2`
     parser.add_argument('-mag_diff_tresh',
                         dest='mag_diff_tresh',
@@ -152,6 +156,12 @@ def get_parser():
                         """,
                         type=float,
                         default=17.)
+    ## Maximum number of elements to download
+    parser.add_argument('-master_limit',
+                        dest='master_limit',
+                        help='Number of elements to use for the MASTER file',
+                        type=_check_pos_val,
+                        default=2000000)
     ## Option for removing file
     parser.add_argument('-remove',
                         dest='remove_files',
@@ -243,15 +253,17 @@ def add_to_dict(param_dict):
     """
     ##
     ## Creating SQL Query for cleaning the data
-    SQL_QUERY="""
-
-    """
+    sql_query = 'SELECT TOP {0} RA, DEC, {1}, {2}, {3} FROM des_dr1.galaxies'
+    sql_query = sql_query.format(   param_dict['master_limit'],
+                                    param_dict['mband_1'],
+                                    param_dict['mband_2'],
+                                    param_dict['mband_3'])
     ## Paths to online files
     # Master catalogue
-    master_url = os.path.join(  'http://lss.phy.vanderbilt.edu/groups',
-                                'Red_Sequence',
-                                'test.csv')
-    cweb.url_checker(master_url)
+    # master_url = os.path.join(  'http://lss.phy.vanderbilt.edu/groups',
+    #                             'Red_Sequence',
+    #                             'test.csv')
+    # cweb.url_checker(master_url)
     # Random catalogue
     rand_url = os.path.join('http://risa.stanford.edu/redmapper/v6.3',
                             'redmapper_sva1_public_v6.3_randoms.fits.gz')
@@ -262,9 +274,10 @@ def add_to_dict(param_dict):
     cweb.url_checker(redmap_url)
     ###
     ### To dictionary
-    param_dict['master_url'] = master_url
+    # param_dict['master_url'] = master_url
     param_dict['rand_url'  ] = rand_url
     param_dict['redmap_url'] = redmap_url
+    param_dict['sql_query' ] = sql_query
 
     return param_dict
 
@@ -305,6 +318,16 @@ def directory_skeleton(param_dict, proj_dict):
 
 ### ----| Downloading Data |--- ###
 
+class DataLab(TAP_Service):
+    def __init__(self, *args, **kwargs):
+        host = 'datalab.noao.edu'
+        path = '/tap'
+        port = 80
+        kwargs['protocol'] = "https"
+        TAP_Service.__init__(self, host, path, port, *args, **kwargs)
+
+### ----| Downloading Data |--- ###
+
 def download_directory(param_dict, proj_dict):
     """
     Downloads the necessary catalogues to perform the analysis
@@ -319,9 +342,9 @@ def download_directory(param_dict, proj_dict):
         `Data Science` Cookiecutter template.
     """
     ## Creating command to execute download
-    kind_arr = ['random'       , 'redmapper'      , 'master']
-    keys_arr = ['rand_dir_path', 'redmap_dir_path', 'master_dir_path']
-    url_arr  = ['rand_url'     , 'redmap_url'     , 'master_url']
+    kind_arr = ['random'       , 'redmapper'      ]
+    keys_arr = ['rand_dir_path', 'redmap_dir_path']
+    url_arr  = ['rand_url'     , 'redmap_url'     ]
     # Looping over each instance
     for kk, (kind_kk, key_kk, url_kk) in enumerate(zip(kind_arr, keys_arr, url_arr)):
         if param_dict['verbose']:
@@ -350,6 +373,36 @@ def download_directory(param_dict, proj_dict):
             msg = '{0} Local copy can be found at: {1}'.format(
                 param_dict['Prog_msg'], kk_local)
             print(msg)
+    ##
+    ## Downloading MASTER catalogue if necessary
+    master_local = param_dict['rs_args'].input_catl_file(catl_kind='master',
+                        check_exist=False)
+    # Checking if file exists
+    if os.path.exists(master_local):
+        if param_dict['remove_files']:
+            # Removing file
+            os.remove(master_local)
+            # Option for creating new MASTER catalogue
+            master_calc = True
+        else:
+            master_calc = False
+    else:
+        master_calc = True
+    ## Computing creating new catalogue if necessary
+    if master_calc:
+        ## Extracting catalogue
+        msg = '{0} Downloading Master catalogue using SQL Query: '.format(
+            param_dict['Prog_msg'])
+        print(msg)
+        # Downloading dataset
+        DL         = DataLab()
+        results_pd = DL.query(param_dict['sql_query']).to_pandas()
+        # Saving to Master file
+        cfreaders.pandas_df_to_hdf5_file(results_pd, master_local, '/gals')
+        cfutils.File_Exists(master_local)
+    # Master File
+    print('{0} Master catalogue can be found at: {1}'.format(
+                param_dict['Prog_msg'], master_local))
     # Message
     if param_dict['verbose']:
         print('{0} Download complete!'.format(param_dict['Prog_msg']))

@@ -21,13 +21,15 @@ SRC_ANALYSIS_DIR   = $(SRC_DIR)/data_analysis
 CATL_DIR           = $(DATA_DIR)/external
 
 # DOWNLOADING DATA - VARIABLES
-MBAND_1        = "MAG_AUTO_G"
-MBAND_2        = "MAG_AUTO_Z"
+MBAND_1        = "mag_auto_g"
+MBAND_2        = "mag_auto_z"
+MBAND_3        = "mag_auto_i"
 MAGDIFF_THR    = 4.
 MAG_MIN        = 24
 MAG_MAX        = 17
 VERBOSE        = "True"
 REMOVE_FILES   = "False"
+MASTER_LIMIT   = 1000000
 
 # ANALYSIS - VARIABLES
 RADIUS_SIZE    = 5
@@ -160,16 +162,18 @@ cosmo_utils_remove:
 ## Downloading the data
 download_data:
 	@python $(SRC_PREPROC_DIR)/download_dataset.py -mband_1 $(MBAND_1) \
-	-mband_2 $(MBAND_2) -mag_diff_tresh $(MAGDIFF_THR) -mag_min $(MAG_MIN) \
-	-mag_max $(MAG_MAX) -v $(VERBOSE) -remove $(REMOVE_FILES)
+	-mband_2 $(MBAND_2) -mband_3 $(MBAND_3) -mag_diff_tresh $(MAGDIFF_THR) \
+	 -mag_min $(MAG_MIN) -mag_max $(MAG_MAX) -v $(VERBOSE) \
+	-remove $(REMOVE_FILES) -master_limit $(MASTER_LIMIT)
 
 ## Runs analysis and computes data for plotting
 analysis:
 	@python $(SRC_ANALYSIS_DIR)/analysis_main.py -mband_1 $(MBAND_1) \
-	-mband_2 $(MBAND_2) -mag_diff_tresh $(MAGDIFF_THR) -mag_min $(MAG_MIN) \
-	-mag_max $(MAG_MAX) -v $(VERBOSE) -remove $(REMOVE_FILES) \
-	-radius_size $(RADIUS_SIZE) -cosmo $(COSMO) -z_binsize $(Z_BINSIZE) \
-	-z_min $(Z_MIN) -z_max $(Z_MAX) -input_catl_loc $(INPUT_CATL_LOC)
+	-mband_2 $(MBAND_2) -mband_3 $(MBAND_3) -mag_diff_tresh $(MAGDIFF_THR) \
+	-mag_min $(MAG_MIN) -mag_max $(MAG_MAX) -v $(VERBOSE) \
+	-remove $(REMOVE_FILES) -radius_size $(RADIUS_SIZE) -cosmo $(COSMO) \
+	-z_binsize $(Z_BINSIZE) -z_min $(Z_MIN) -z_max $(Z_MAX) \
+	-input_catl_loc $(INPUT_CATL_LOC)
 
 
 #################################################################################
