@@ -171,6 +171,12 @@ def get_parser():
                         """,
                         type=float,
                         default=17.)
+    ## Maximum number of elements to download
+    parser.add_argument('-master_limit',
+                        dest='master_limit',
+                        help='Number of elements to use for the MASTER file',
+                        type=int,
+                        default=100000)
     ## Aperture radius in 'arcseconds'
     parser.add_argument('-radius_size',
                         dest='radius_size',

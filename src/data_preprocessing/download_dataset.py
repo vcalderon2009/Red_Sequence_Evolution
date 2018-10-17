@@ -160,8 +160,8 @@ def get_parser():
     parser.add_argument('-master_limit',
                         dest='master_limit',
                         help='Number of elements to use for the MASTER file',
-                        type=_check_pos_val,
-                        default=2000000)
+                        type=int,
+                        default=100000)
     ## Option for removing file
     parser.add_argument('-remove',
                         dest='remove_files',
@@ -367,8 +367,6 @@ def download_directory(param_dict, proj_dict):
                 param_dict['Prog_msg'], kk_local)
             print(msg)
         else:
-            ## Downloading file
-            cfutils.File_Download_needed(kk_local, kk_remote)
             ##
             msg = '{0} Local copy can be found at: {1}'.format(
                 param_dict['Prog_msg'], kk_local)
@@ -391,12 +389,14 @@ def download_directory(param_dict, proj_dict):
     ## Computing creating new catalogue if necessary
     if master_calc:
         ## Extracting catalogue
-        msg = '{0} Downloading Master catalogue using SQL Query: '.format(
-            param_dict['Prog_msg'])
-        print(msg)
+        print('{0} Downloading Master catalogue using SQL Query: '.format(
+                    param_dict['Prog_msg']))
+        print('{0} >> SQL Query: {1}'.format(param_dict['Prog_msg'],
+            param_dict['sql_query']))
         # Downloading dataset
-        DL         = DataLab()
-        results_pd = DL.query(param_dict['sql_query']).to_pandas()
+        DL          = DataLab()
+        results_tab = DL.query(param_dict['sql_query'])
+        results_pd  = results_tab.to_pandas()
         # Saving to Master file
         cfreaders.pandas_df_to_hdf5_file(results_pd, master_local, '/gals')
         cfutils.File_Exists(master_local)
