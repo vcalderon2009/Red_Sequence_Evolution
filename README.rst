@@ -43,7 +43,11 @@ Project based on the `modified <https://github.com/vcalderon2009/cookiecutter-da
    :target: https://github.com/vcalderon2009/Red_Sequence_Evolution/blob/master/LICENSE.rst
    :alt: Project License
 
+.. ----------------------------------------------------------------------------
 
+To download relevant data:
+
+make download_data
 
 
 
