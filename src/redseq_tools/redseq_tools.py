@@ -52,7 +52,7 @@ class RedSeq(object):
         self.mag_diff_tresh = kwargs.get('mag_diff_tresh', 4.)
         self.mag_min        = kwargs.get('mag_min', 24.)
         self.mag_max        = kwargs.get('mag_max', 17.)
-        self.master_limit   = kwargs.get('master_limit', 1000000)
+        self.master_limit   = kwargs.get('master_limit', 100000)
         # Analysis
         self.radius         = kwargs.get('radius', 5./3600.)
         self.radius_unit    = kwargs.get('radius_unit', 'deg')
