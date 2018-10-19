@@ -368,6 +368,8 @@ def download_directory(param_dict, proj_dict):
                 param_dict['Prog_msg'], kk_local)
             print(msg)
         else:
+            ## Downloading file
+            cfutils.File_Download_needed(kk_local, kk_remote)
             ##
             msg = '{0} Local copy can be found at: {1}'.format(
                 param_dict['Prog_msg'], kk_local)
