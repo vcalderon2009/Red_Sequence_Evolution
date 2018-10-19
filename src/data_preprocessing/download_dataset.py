@@ -27,6 +27,7 @@ from cosmo_utils.utils import web_utils    as cweb
 from src.redseq_tools import RedSeq
 
 # Extra-modules
+import argparse
 from argparse import ArgumentParser
 from argparse import HelpFormatter
 from operator import attrgetter
