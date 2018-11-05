@@ -25,3 +25,4 @@ dependencies:
         - tables
         - tqdm
         - git+https://github.com/mfouesneau/tap
+        - easyaccess==1.4.5
